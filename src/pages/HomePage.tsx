@@ -4,7 +4,7 @@ import DefaultLayout from '../layouts/DefaultLayout'
 const HomePage: React.FC = () => {
     return (
         <DefaultLayout>
-            <div>
+            <div className='wrapper-home-page'>
                 HomePage
             </div>
         </DefaultLayout>

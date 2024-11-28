@@ -5,6 +5,7 @@ import ProtectedRoute from './routes/protectedRoute';
 import Login from "./components/login/login";
 import Otp from "./components/otp/otp";
 import HomePage from './pages/HomePage';
+import "./assets/main.scss"; 
 
 const App: React.FC = () => {
   return (

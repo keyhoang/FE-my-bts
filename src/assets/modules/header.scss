@@ -1,0 +1,16 @@
+.wrapper-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    .image-logo {
+        img {
+            width: 60%;
+        }
+    }
+}
