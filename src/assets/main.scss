@@ -1,3 +1,32 @@
-@import "./modules/variable.scss"; 
+@import "./modules/variable.scss";
 @import "./modules/header.scss";
-@import "./pages/home_page.scss"; 
+@import "./pages/home_page.scss";
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: 'Nunito Sans';
+}
+
+.btn-custom-primary {
+    background-color: $primary-color-500;
+    border: none;
+    color: white;
+    padding: 13px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    i {
+        font-size:20px;
+    }
+}
