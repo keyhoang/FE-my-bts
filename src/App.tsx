@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './routes/protectedRoute';
 import Login from "./components/login/login";
 import Otp from "./components/otp/otp";
-import {Homepage} from "./components/Homepage/Homepage";
+import HomePage from './pages/HomePage';
 
 const App: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const App: React.FC = () => {
               path="/"
               element={
                 <ProtectedRoute>
-                  <Homepage />
+                    <HomePage/>
                 </ProtectedRoute>
               }
           />
