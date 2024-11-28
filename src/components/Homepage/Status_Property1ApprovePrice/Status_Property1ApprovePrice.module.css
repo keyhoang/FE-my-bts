@@ -1,0 +1,19 @@
+.root {
+  width: min-content;
+  height: min-content;
+  padding: 8px 12px;
+  border-radius: 99px;
+  background-color: #00c7be26;
+}
+.approvedPrice {
+  color: #00c7be;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+  font-family: Nunito Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+}
