@@ -1,8 +1,8 @@
 // src/pages/Otp.tsx
 import React, {useRef, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {verifyOtp} from "../../services/api";
-import {setAccessToken} from "../../utils/auth";
+import {getUserInfo, verifyOtp} from "../../services/api";
+import {setAccessToken, setCurrentUser} from "../../utils/auth";
 import "./otp.css";
 
 const Otp: React.FC = () => {
@@ -47,6 +47,7 @@ const Otp: React.FC = () => {
             const response = await verifyOtp(phoneNumber, otp.join(''));
             console.log(response)
             setAccessToken(response.data.data.token);
+            setCurrentUser(await getUserInfo())
             navigate('/');
         } catch (error) {
             alert('Invalid OTP');
