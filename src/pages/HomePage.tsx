@@ -23,19 +23,11 @@ const HomePage: React.FC = () => {
                                 <div className='input-search'>
                                     <input type="text" className="input-form-control" placeholder='Search' />
 
-                                    <div className='input-icon' onClick={() => setOpenFormSearch(true)}>
+                                    <div className='input-icon'>
                                         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M13.4166 24.4999C19.5377 24.4999 24.4999 19.5377 24.4999 13.4166C24.4999 7.29543 19.5377 2.33325 13.4166 2.33325C7.29543 2.33325 2.33325 7.29543 2.33325 13.4166C2.33325 19.5377 7.29543 24.4999 13.4166 24.4999Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M25.6665 25.6666L23.3332 23.3333" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                    </div>
-
-                                    <div className="dropdown-list">
-                                        <ul>
-                                            <li>Option 1</li>
-                                            <li>Option 2</li>
-                                            <li>Option 3</li>
-                                        </ul>
                                     </div>
                                 </div>
 
