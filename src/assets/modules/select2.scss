@@ -1,0 +1,25 @@
+.select2-react-hook-form__control {
+    min-height: 48px !important;
+    font-size: 14px !important;
+    border-radius: 16px !important;
+    border-color: $border-input-color !important;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.select2-react-hook-form__menu {
+    position: absolute;
+    z-index: 3 !important;
+}
+
+.select2-react-hook-form__menu-list {
+    position: absolute;
+    z-index: 3 !important;
+    font-size: 14px !important;
+}
+
+
+.select2-react-hook-form__control--is-focused {
+    box-shadow: none !important;
+    border-color: $primary-color-500 !important;
+}

@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import DefaultLayout from '../layouts/DefaultLayout';
 import Select from 'react-select';
-import { OptionStatus } from '../types/homePage';
+import { OptionStatus, OptionStatusDatas } from '../types/homePage';
 
 const HomePage = () => {
-    const [optionsStatus, setOptionsStatus] = useState < Array < OptionStatus >> ([]);
+    const [openFormSearchAdvanced, setOpenFormSearchAdvanced] = useState < Boolean > (false);
+    const [optionsStatus, setOptionsStatus] = useState < Array < OptionStatus >> (OptionStatusDatas);
 
     return (
         <DefaultLayout>
@@ -35,48 +36,121 @@ const HomePage = () => {
 
 
                                 <div
-                                    className="icon-search"
-                                    id="dropdownMenuButton"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
+                                    className={openFormSearchAdvanced ? 'icon-search icon-search-active' : 'icon-search'}
+                                    onClick={() => setOpenFormSearchAdvanced(!openFormSearchAdvanced)}
                                 >
                                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M7.20001 2.80005H24.8C26.2667 2.80005 27.4667 4.00005 27.4667 5.46672V8.40005C27.4667 9.46672 26.8 10.8 26.1333 11.4667L20.4 16.5334C19.6 17.2 19.0667 18.5334 19.0667 19.6V25.3334C19.0667 26.1334 18.5333 27.2001 17.8667 27.6001L16 28.8C14.2667 29.8667 11.8667 28.6667 11.8667 26.5334V19.4667C11.8667 18.5334 11.3333 17.3334 10.8 16.6667L5.73334 11.3334C5.06667 10.6667 4.53334 9.46672 4.53334 8.66672V5.60005C4.53334 4.00005 5.73334 2.80005 7.20001 2.80005Z" stroke="#2C323F" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                                         <path d="M14.5733 2.80005L8 13.3334" stroke="#2C323F" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                </div>
 
-                                <div 
-                                    className="blog-search-advanced dropdown-menu"
-                                    aria-labelledby="dropdownMenuButton"
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <div className="blog-search-advanced-header">
-                                        <h4>Filter</h4>
-                                    </div>
+                                    {
+                                        openFormSearchAdvanced && (
+                                            <div
+                                                className="blog-search-advanced"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                <div className="blog-search-advanced-header">
+                                                    <h4>Filter</h4>
+                                                </div>
 
-                                    <div className="blog-search-advanced-content">
-                                        <div className="blog-search-advanced-content-item">
+                                                <div className="blog-search-advanced-content">
+                                                    <div className="blog-search-advanced-content-item">
+                                                        <div className="blog-search-advanced-content-item-date">
+                                                            <div className="form-group">
+                                                                <label htmlFor="">From:</label>
+                                                                <input type="date" className="form-control" id="dateInput" name="date" />
+                                                            </div>
+                                                        </div>
+                                                        <div className="blog-search-advanced-content-item-date">
+                                                            <div className="form-group">
+                                                                <label htmlFor="">To:</label>
+                                                                <input type="date" className="form-control" id="dateInput" name="date" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                        </div>
+                                                    <div className="blog-search-advanced-content-item">
+                                                        <div className="form-group">
+                                                            <label htmlFor="">Status:</label>
+                                                            <Select
+                                                                classNamePrefix="select2-react-hook-form"
+                                                                options={optionsStatus}
+                                                                theme={(theme) => ({
+                                                                    ...theme,
+                                                                    colors: {
+                                                                        ...theme.colors,
+                                                                        primary: "#FD6D1A",
+                                                                    },
+                                                                })}
+                                                            />
+                                                        </div>
+                                                    </div>
 
-                                        <div className="blog-search-advanced-content-item">
-                                            <div className="form-group">
-                                                <label htmlFor="">Status:</label>
-                                                <Select options={optionsStatus} />
+                                                    <div className="blog-search-advanced-content-item">
+                                                        <div className="form-group">
+                                                            <label htmlFor="">Company:</label>
+                                                            <Select
+                                                                classNamePrefix="select2-react-hook-form"
+                                                                options={optionsStatus}
+                                                                theme={(theme) => ({
+                                                                    ...theme,
+                                                                    colors: {
+                                                                        ...theme.colors,
+                                                                        primary: "#FD6D1A",
+                                                                    },
+                                                                })}
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="blog-search-advanced-content-item">
+                                                        <div className="form-group">
+                                                            <label htmlFor="">Branch:</label>
+                                                            <Select
+                                                                classNamePrefix="select2-react-hook-form"
+                                                                options={optionsStatus}
+                                                                theme={(theme) => ({
+                                                                    ...theme,
+                                                                    colors: {
+                                                                        ...theme.colors,
+                                                                        primary: "#FD6D1A",
+                                                                    },
+                                                                })}
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="blog-search-advanced-content-item">
+                                                        <div className="form-group">
+                                                            <label htmlFor="">Township:</label>
+                                                            <Select
+                                                                classNamePrefix="select2-react-hook-form"
+                                                                options={optionsStatus}
+                                                                theme={(theme) => ({
+                                                                    ...theme,
+                                                                    colors: {
+                                                                        ...theme.colors,
+                                                                        primary: "#FD6D1A",
+                                                                    },
+                                                                })}
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="d-flex justify-content-center gap-3 blog-search-advanced-content-item">
+                                                        <button onClick={() => setOpenFormSearchAdvanced(false)}>
+                                                            Cancel
+                                                        </button>
+
+                                                        <button>
+                                                            Apply
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <div className="d-flex justify-content-center gap-3 blog-search-advanced-content-item">
-                                            <button className="">
-                                                Cancel
-                                            </button>
-
-                                            <button className="">
-                                                Apply
-                                            </button>
-                                        </div>
-                                    </div>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>

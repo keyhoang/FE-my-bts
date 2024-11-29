@@ -69,9 +69,17 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                position: relative;
+            }
+
+            .icon-search-active {
+                border: 1px solid $primary-color-500;
             }
 
             .blog-search-advanced {
+                position: absolute !important;
+                right: 0;
+                top: 70px;
                 width: 376px;
                 border-radius: 20px;
                 background-color: white;
@@ -79,6 +87,7 @@
                 border: 1px solid white;
                 z-index: 9;
                 box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                transition: ease-in-out 0.5; 
 
                 .blog-search-advanced-header {
                     padding: 20px;
@@ -93,8 +102,11 @@
 
                 .blog-search-advanced-content {
                     .blog-search-advanced-content-item {
+                        display: flex;
                         border-bottom: 1px solid #96ACC4;
                         padding: 15px;
+                        width: 100%;
+                        gap: 10px;
 
                         &:last-child {
                             border-bottom: none;
@@ -125,6 +137,19 @@
                                 background-color: $primary-color-500;
                                 color: white;
                             }
+                        }
+
+                        .form-group {
+                            width: 100%;
+
+                            label {
+                                margin-bottom: 8px;
+                                font-size: 16px;
+                            }
+                        }
+
+                        .blog-search-advanced-content-item-date {
+                            width: 50%;
                         }
                     }
                 }
