@@ -3,6 +3,13 @@
     display: flex;
     height: 100vh;
     font-family: "Nunito Sans", sans-serif;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .login-container {
+        flex-direction: row;
+    }
 }
 
 /* Left Section */
@@ -42,16 +49,28 @@
 }
 
 .login-title {
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 700;
     color: #2c323f;
 }
 
+@media (min-width: 768px) {
+    .login-title {
+        font-size: 36px;
+    }
+}
+
 .login-subtitle {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     color: #515c7c;
     margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .login-subtitle {
+        font-size: 18px;
+    }
 }
 
 .input-container {
@@ -62,18 +81,30 @@
 }
 
 .input-icon {
-    font-size: 24px;
+    font-size: 20px;
     color: #7c94b5;
     margin-right: 10px;
+}
+
+@media (min-width: 768px) {
+    .input-icon {
+        font-size: 24px;
+    }
 }
 
 .input-field {
     border: none;
     outline: none;
-    font-size: 18px;
+    font-size: 16px;
     flex: 1;
     padding: 8px;
     color: #2c323f;
+}
+
+@media (min-width: 768px) {
+    .input-field {
+        font-size: 18px;
+    }
 }
 
 .login-button {
@@ -82,11 +113,17 @@
     padding: 12px 24px;
     border: none;
     border-radius: 8px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     width: 100%;
     text-align: center;
+}
+
+@media (min-width: 768px) {
+    .login-button {
+        font-size: 18px;
+    }
 }
 
 .login-button:hover {
@@ -98,9 +135,15 @@
     flex: 1;
     position: relative;
     background-color: #fd6d1a;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
+}
+
+@media (min-width: 768px) {
+    .login-right {
+        display: flex;
+    }
 }
 
 .login-background {
@@ -123,5 +166,11 @@
 }
 
 .login-logo-large img {
-    width: 306px;
+    width: 200px;
+}
+
+@media (min-width: 768px) {
+    .login-logo-large img {
+        width: 306px;
+    }
 }
