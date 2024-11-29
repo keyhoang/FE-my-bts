@@ -6,6 +6,8 @@ import Login from "./components/login/login";
 import Otp from "./components/otp/otp";
 import HomePage from './pages/HomePage';
 import "./assets/main.scss"; 
+import '@fortawesome/fontawesome-free/css/all.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
 
 const App: React.FC = () => {
   return (
