@@ -1,0 +1,5 @@
+export enum StatusEnums {
+    SUBMITTED = "SUBMITTED",
+    APPROVED_FUEL = "APPROVED_FUEL",
+    APPROVED_PRICE = "APPROVED_PRICE",
+}
