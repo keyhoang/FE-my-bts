@@ -1,4 +1,3 @@
-import "./detail.css";
 import React, {useEffect, useState} from "react";
 import DefaultLayout from '../../layouts/DefaultLayout'
 import iconBack from '../../assets/detail/images/icon-back.svg';
@@ -28,39 +27,39 @@ const Detail: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchTicketDetail = async () => {
-            const ticketId = id ? parseInt(id) : 0;
-            await getTicketDetail(ticketId).then((response) => {
-                console.log(1, response)
-                setTicketDetail(response.data);
-                if (ticketDetail.staffAmount) {
-                    setInputFuel(String(ticketDetail.staffAmount));
-                }
+        const ticketId = id ? parseInt(id) : 0;
+        getTicketDetail(ticketId).then((response) => {
+            const data = response.data;
+            setTicketDetail(data);
+            if (data.supervisorAmount) {
+                setInputFuel(String(data.supervisorAmount));
+            }
 
-                if (ticketDetail.supervisorAmount) {
-                    setInputPrice(String(ticketDetail.supervisorAmount));
-                }
+            if (data.supervisorPrice) {
+                setInputPrice(String(data.supervisorPrice));
+            }
 
-                if (ticketDetail.pricePerFuel) {
-                    setInputPriceRefuel(String(ticketDetail.pricePerFuel));
-                }
+            if (data.pricePerFuel) {
+                setInputPriceRefuel(String(data.pricePerFuel));
+            }
 
-                return;
-            }).catch(() => {
-                console.log(2)
-                Swal.fire({
-                    icon: "error",
-                    title: "Failed to fetch ticket details",
-                }).then(() => {
-                    setTimeout(() => {
-                        navigate(`/`);
-                    }, 5000);
-                });
+            if (data.noteAmount || data.notePrice) {
+                const currentUser = getCurrentUser();
+                ['SUPERVISOR_LEVEL_2', 'HO_LEVEL_2'].includes(currentUser?.role) ? setInputNote(String(data.notePrice)) : setInputNote(String(data.noteAmount));
+            }
+
+            return;
+        }).catch(() => {
+            Swal.fire({
+                icon: "error",
+                title: "Failed to fetch ticket details",
+                showConfirmButton: false,
+                timer: 2000
+            }).then().finally(() => {
+                navigate(`/`);
             });
-        };
-
-        fetchTicketDetail();
-    }, [id, isApproved]);
+        });
+    }, [isApproved]);
 
     const checkStatusSubmit = () => {
         return ticketDetail && ticketDetail.status === 'SUBMITTED';
@@ -129,10 +128,16 @@ const Detail: React.FC = () => {
                 }
                 await approvedTicketFuel(ticketId, parseFloat(inputFuel)).then(() => {
                     setIsApproved(true);
+                    Swal.fire({
+                        icon: "success",
+                        title: "Approved success",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                 }).catch((res) => {
                     Swal.fire({
                         icon: "error",
-                        title: res.response.data.message,
+                        title: res.message,
                         confirmButtonText: "OK",
                     });
                 });
@@ -151,10 +156,16 @@ const Detail: React.FC = () => {
                 }
                 await approvedTicketPrice(ticketId, parseFloat(inputPriceRefuel), parseFloat(inputPrice)).then(() => {
                     setIsApproved(true);
+                    Swal.fire({
+                        icon: "success",
+                        title: "Approved success",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                 }).catch((res) => {
                     Swal.fire({
                         icon: "error",
-                        title: res.response.data.message,
+                        title: res.message,
                         confirmButtonText: "OK",
                     });
                 });
@@ -173,10 +184,18 @@ const Detail: React.FC = () => {
                     setErrorInputFuel("Approve fuel is required.");
                     return;
                 }
-                await updateApprovedTicketFuel(ticketId, parseFloat(inputFuel), inputNote).then().catch((res) => {
+                await updateApprovedTicketFuel(ticketId, parseFloat(inputFuel), inputNote).then(() => {
+                    setIsApproved(true);
+                    Swal.fire({
+                        icon: "success",
+                        title: "Updated success",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }).catch((res) => {
                     Swal.fire({
                         icon: "error",
-                        title: res.response.data.message,
+                        title: res.message,
                         confirmButtonText: "OK",
                     });
                 });
@@ -193,10 +212,18 @@ const Detail: React.FC = () => {
                         return;
                     }
                 }
-                await updateApprovedTicketPrice(ticketId, parseFloat(inputPriceRefuel), parseFloat(inputPrice), inputNote).then().catch((res) => {
+                await updateApprovedTicketPrice(ticketId, parseFloat(inputPriceRefuel), parseFloat(inputPrice), inputNote).then(() => {
+                    setIsApproved(true);
+                    Swal.fire({
+                        icon: "success",
+                        title: "Updated success",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }).catch((res) => {
                     Swal.fire({
                         icon: "error",
-                        title: res.response.data.message,
+                        title: res.message,
                         confirmButtonText: "OK",
                     });
                 });
@@ -213,26 +240,6 @@ const Detail: React.FC = () => {
 
         return update();
     }
-
-    const formatToDMS = (value: number, type: 'latitude' | 'longitude') => {
-        const isNegative = value < 0;
-        const absoluteValue = Math.abs(value);
-        const degrees = Math.floor(absoluteValue);
-        const minutesFloat = (absoluteValue - degrees) * 60;
-        const minutes = Math.floor(minutesFloat);
-        const seconds = ((minutesFloat - minutes) * 60).toFixed(1);
-
-        const direction =
-            type === 'latitude'
-                ? isNegative
-                    ? 'S'
-                    : 'N'
-                : isNegative
-                    ? 'W'
-                    : 'E';
-
-        return `${degrees}°${minutes}'${seconds}"${direction}`;
-    };
 
     const handleInputFuel = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -368,7 +375,7 @@ const Detail: React.FC = () => {
                                 <hr/>
                                 <div className={'d-flex justify-content-between'}>
                                     <span>Location</span>
-                                    <span className={'fw-bold'}>{ formatToDMS(ticketDetail?.latitude, 'latitude') } { formatToDMS(ticketDetail?.latitude, 'longitude') }</span>
+                                    <span className={'fw-bold'}>Lat: { ticketDetail?.latitude }, Lng: { ticketDetail?.longitude }</span>
                                 </div>
                                 <hr/>
                                 <div className={'d-flex flex-column'}>
