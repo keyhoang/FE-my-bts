@@ -2,6 +2,7 @@
 import axios from 'axios';
 import {SearchTicket} from "../model/searchTicket";
 import {UserInfo} from "../model/UserInfo";
+import {TicketDetail} from "../model/TicketDetail";
 
 const API_BASE_URL = 'http://171.244.3.117:8080/bts/api/v1';
 
@@ -26,6 +27,19 @@ export const getUserInfo = async (): Promise<UserInfo> => {
     }
 }
 
+export const getTicketDetail = async(id: number): Promise<TicketDetail> => {
+    try {
+        let token = localStorage.getItem("access_token")
+        const response = await axios.get(`${API_BASE_URL}/tickets/${id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        return response.data.data as TicketDetail;
+    } catch (error) {
+        console.error("Error get ticket detail data:", error);
+        throw error;
+    }
+}
 
 export const search = async (query: string = ""): Promise<SearchTicket[]> => {
     try {

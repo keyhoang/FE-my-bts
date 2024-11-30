@@ -3,6 +3,10 @@ export interface OptionStatus {
     value: string
 }
 
+export interface FormValues {
+    name: string,
+}
+
 export const OptionStatusDatas = [
     { value: 'chocolate', label: 'Chocolate' },
     { value: 'strawberry', label: 'Strawberry' },
