@@ -3,10 +3,9 @@ import FormSearch from '../../components/HomePage/FormSearch';
 import DefaultLayout from '../../layouts/DefaultLayout';
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { FormValues, OptionSelect, TicketItemList } from '../../types/homePage';
-import { getAllBranches, getAllCompany, getAllTownships, search } from '../../services/api';
+import { downloadFile, getAllBranches, getAllCompany, getAllTownships, search } from '../../services/api';
 import TicketItems from './TicketItems';
 import { formatDate } from '../../utils/dateTime';
-import { toast } from "react-toastify";
 
 const HomePage: React.FC = () => {
     const [openFormSearch, setOpenFormSearch] = useState(false);
@@ -42,6 +41,10 @@ const HomePage: React.FC = () => {
             })
     }
 
+    const handleDownloadFile = (formValues: FormValues) => {
+        downloadFile(formValues);
+    }
+
     // side effect 
     useEffect(() => {
         Promise.all([
@@ -71,7 +74,7 @@ const HomePage: React.FC = () => {
                     <div className="row">
                         <div className="col-md-6 col-sm-12 col-sx-12">
                             <div className='group-btn-export'>
-                                <button className="btn-custom-primary">
+                                <button className="btn-custom-primary" onClick={() => handleDownloadFile(formValues)}>
                                     <i className="fa-solid fa-file-arrow-down"></i>
                                     Export
                                 </button>
