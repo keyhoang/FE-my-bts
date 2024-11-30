@@ -307,7 +307,7 @@ const Detail: React.FC = () => {
                         </div>
                         <div className={'detail-main'}>
                             <div className={'detail-status'}>{ getStatusLabel() }</div>
-                            <div className={'pt-4 d-flex justify-content-between'}>
+                            <div className={'pt-4 d-flex justify-content-between input-list'}>
                                 <div className={'d-flex flex-column'}>
                                     <span className={'input-title'}>Approve Fuel</span>
                                     <div className="input-wrapper">
