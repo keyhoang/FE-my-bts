@@ -5,9 +5,9 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 interface Props {
     funcOpenFormSearch: (isOpen: boolean) => void;
-    companies: OptionSelect[]
-    branches: OptionSelect[]
-    townships: OptionSelect[]
+    companies: OptionSelect[];
+    branches: OptionSelect[];
+    townships: OptionSelect[];
 }
 
 const FormSearch: React.FC<Props> = ({
@@ -19,19 +19,22 @@ const FormSearch: React.FC<Props> = ({
 
     const {
         register,
+        control,
         watch,
         setValue
     } = useFormContext();
 
-    console.log("watch", watch())
+    console.log("watch", watch());
 
-    // funciton 
+    // function to handle select change and set form value
     const handleChangeSelect = (selectedOption: OptionSelect | null, keyForm: string) => {
         if (selectedOption) {
             setValue(keyForm, selectedOption?.value);
+        }else{
+            setValue(keyForm, "");
         }
     };
-    
+
     return (
         <div
             className="blog-search-advanced"
@@ -70,18 +73,26 @@ const FormSearch: React.FC<Props> = ({
                 <div className="blog-search-advanced-content-item">
                     <div className="form-group">
                         <label htmlFor="">Status:</label>
-                        <Select
-                            classNamePrefix="select2-react-hook-form"
-                            options={StatusOptinal}
-                            theme={(theme) => ({
-                                ...theme,
-                                colors: {
-                                    ...theme.colors,
-                                    primary: "#FD6D1A",
-                                },
-                            })}
-                            {...register("status")}
-                            onChange={(selectedOption) => handleChangeSelect(selectedOption, 'status')}
+                        <Controller
+                            name="status"
+                            control={control}
+                            render={({ field }) => (
+                                <Select
+                                    {...field}
+                                    classNamePrefix="select2-react-hook-form"
+                                    options={StatusOptinal}
+                                    isClearable={true}
+                                    theme={(theme) => ({
+                                        ...theme,
+                                        colors: {
+                                            ...theme.colors,
+                                            primary: "#FD6D1A",
+                                        },
+                                    })}
+                                    onChange={(selectedOption) => handleChangeSelect(selectedOption, 'status')}
+                                    value={StatusOptinal.find(option => option.value === field.value)}
+                                />
+                            )}
                         />
                     </div>
                 </div>
@@ -89,18 +100,26 @@ const FormSearch: React.FC<Props> = ({
                 <div className="blog-search-advanced-content-item">
                     <div className="form-group">
                         <label htmlFor="">Company:</label>
-                        <Select
-                            classNamePrefix="select2-react-hook-form"
-                            options={companies}
-                            theme={(theme) => ({
-                                ...theme,
-                                colors: {
-                                    ...theme.colors,
-                                    primary: "#FD6D1A",
-                                },
-                            })}
-                            {...register("company")}
-                            onChange={(selectedOption) => handleChangeSelect(selectedOption, 'company')}
+                        <Controller
+                            name="company"
+                            control={control}
+                            render={({ field }) => (
+                                <Select
+                                    {...field}
+                                    classNamePrefix="select2-react-hook-form"
+                                    options={companies}
+                                    isClearable={true}
+                                    theme={(theme) => ({
+                                        ...theme,
+                                        colors: {
+                                            ...theme.colors,
+                                            primary: "#FD6D1A",
+                                        },
+                                    })}
+                                    onChange={(selectedOption) => handleChangeSelect(selectedOption, 'company')}
+                                    value={companies.find(option => option.value === field.value)}
+                                />
+                            )}
                         />
                     </div>
                 </div>
@@ -108,18 +127,26 @@ const FormSearch: React.FC<Props> = ({
                 <div className="blog-search-advanced-content-item">
                     <div className="form-group">
                         <label htmlFor="">Branch:</label>
-                        <Select
-                            classNamePrefix="select2-react-hook-form"
-                            options={branches}
-                            theme={(theme) => ({
-                                ...theme,
-                                colors: {
-                                    ...theme.colors,
-                                    primary: "#FD6D1A",
-                                },
-                            })}
-                            {...register("branch")}
-                            onChange={(selectedOption) => handleChangeSelect(selectedOption, 'branch')}
+                        <Controller
+                            name="branch"
+                            control={control}
+                            render={({ field }) => (
+                                <Select
+                                    {...field}
+                                    classNamePrefix="select2-react-hook-form"
+                                    options={branches}
+                                    isClearable={true}
+                                    theme={(theme) => ({
+                                        ...theme,
+                                        colors: {
+                                            ...theme.colors,
+                                            primary: "#FD6D1A",
+                                        },
+                                    })}
+                                    onChange={(selectedOption) => handleChangeSelect(selectedOption, 'branch')}
+                                    value={branches.find(option => option.value === field.value)}
+                                />
+                            )}
                         />
                     </div>
                 </div>
@@ -127,34 +154,42 @@ const FormSearch: React.FC<Props> = ({
                 <div className="blog-search-advanced-content-item">
                     <div className="form-group">
                         <label htmlFor="">Township:</label>
-                        <Select
-                            classNamePrefix="select2-react-hook-form"
-                            options={townships}
-                            theme={(theme) => ({
-                                ...theme,
-                                colors: {
-                                    ...theme.colors,
-                                    primary: "#FD6D1A",
-                                },
-                            })}
-                            {...register("township")}
-                            onChange={(selectedOption) => handleChangeSelect(selectedOption, 'township')}
+                        <Controller
+                            name="township"
+                            control={control}
+                            render={({ field }) => (
+                                <Select
+                                    {...field}
+                                    classNamePrefix="select2-react-hook-form"
+                                    options={townships}
+                                    isClearable={true}
+                                    theme={(theme) => ({
+                                        ...theme,
+                                        colors: {
+                                            ...theme.colors,
+                                            primary: "#FD6D1A",
+                                        },
+                                    })}
+                                    onChange={(selectedOption) => handleChangeSelect(selectedOption, 'township')}
+                                    value={townships.find(option => option.value === field.value)}
+                                />
+                            )}
                         />
                     </div>
                 </div>
 
                 <div className="d-flex justify-content-center gap-3 blog-search-advanced-content-item">
-                    <button onClick={() => funcOpenFormSearch(false)}>
+                    <button type="button" onClick={() => funcOpenFormSearch(false)}>
                         Cancel
                     </button>
 
-                    <button type='submit'>
+                    <button type="submit">
                         Apply
                     </button>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default FormSearch
+export default FormSearch;

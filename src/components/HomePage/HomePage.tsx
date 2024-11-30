@@ -6,7 +6,6 @@ import { FormValues, OptionSelect, TicketItemList } from '../../types/homePage';
 import { getAllBranches, getAllCompany, getAllTownships, search } from '../../services/api';
 import TicketItems from './TicketItems';
 import { formatDate } from '../../utils/dateTime';
-import { toast } from "react-toastify";
 
 const HomePage: React.FC = () => {
     const [openFormSearch, setOpenFormSearch] = useState(false);
