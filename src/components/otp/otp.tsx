@@ -49,8 +49,7 @@ const Otp: React.FC = () => {
 
     const handleVerifyOtp = async () => {
         try {
-            const response = await verifyOtp(phoneNumber, otp.join(''));
-            console.log(response)
+            const response = await verifyOtp(phoneNumber, otp.join('')) ;
             setAccessToken(response.data.data.token);
             setCurrentUser(await getUserInfo())
             navigate('/');

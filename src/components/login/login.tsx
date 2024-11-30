@@ -10,17 +10,20 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
 
     const handleLogin = async () => {
-        try {
-            await login(phoneNumber);
-            navigate('/otp', {state: {phoneNumber}});
-        } catch (error) {
-            await Swal.fire({
-                icon: "error",
-                title: "Phone Number invalid",
-                text: "Pls check OTP code again or contact to admin.",
-                confirmButtonText: "OK",
-            });
-        }
+        await login(phoneNumber).then(() =>
+            navigate('/otp', {state: {phoneNumber}})
+        ).catch(
+            (error) => {
+                if (error.response){
+                    Swal.fire({
+                        icon: "error",
+                        title: error.response.data.message,
+                        text: "Pls contact to admin.",
+                        confirmButtonText: "OK",
+                    });
+                }
+            }
+        );
     };
 
     return (
