@@ -26,6 +26,12 @@ const Login: React.FC = () => {
         );
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            handleLogin(); // Submit khi nhấn Enter
+        }
+    };
+
     return (
         <div className="login-container">
             {/* Left Section */}
@@ -46,6 +52,7 @@ const Login: React.FC = () => {
                             placeholder="Enter your phone number"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
+                            onKeyDown={(e) => handleKeyDown(e)}
                         />
                     </div>
 
