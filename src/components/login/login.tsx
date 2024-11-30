@@ -1,8 +1,9 @@
 // src/pages/Login.tsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {login} from "../../services/api";
 import "./login.css";
+import Swal from "sweetalert2";
 
 const Login: React.FC = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -11,9 +12,14 @@ const Login: React.FC = () => {
     const handleLogin = async () => {
         try {
             await login(phoneNumber);
-            navigate('/otp', { state: { phoneNumber } });
+            navigate('/otp', {state: {phoneNumber}});
         } catch (error) {
-            alert('Failed to send OTP');
+            await Swal.fire({
+                icon: "error",
+                title: "Phone Number invalid",
+                text: "Pls check OTP code again or contact to admin.",
+                confirmButtonText: "OK",
+            });
         }
     };
 
@@ -22,7 +28,7 @@ const Login: React.FC = () => {
             {/* Left Section */}
             <div className="login-left">
                 <div className="login-logo">
-                    <img src="/images/logo.png" alt="Logo" className="logo-image" />
+                    <img src="/images/logo.png" alt="Logo" className="logo-image"/>
                 </div>
                 <div className="login-content">
                     <h1 className="login-title">Sign in</h1>
@@ -48,10 +54,10 @@ const Login: React.FC = () => {
             <div className="login-right">
                 <div className="login-background">
                     {/* Background Design */}
-                    <img src="/images/login-banner.png" alt="Background" className="background-image" />
+                    <img src="/images/login-banner.png" alt="Background" className="background-image"/>
                 </div>
                 <div className="login-logo-large">
-                    <img src="/images/logo-large.png" alt="Large Logo" />
+                    <img src="/images/logo-large.png" alt="Large Logo"/>
                 </div>
             </div>
         </div>

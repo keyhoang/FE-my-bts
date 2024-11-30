@@ -1,9 +1,10 @@
 // src/pages/Otp.tsx
 import React, {useRef, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {verifyOtp} from "../../services/api";
-import {setAccessToken} from "../../utils/auth";
+import {getUserInfo, verifyOtp} from "../../services/api";
+import {setAccessToken, setCurrentUser} from "../../utils/auth";
 import "./otp.css";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 const Otp: React.FC = () => {
     const location = useLocation();
@@ -30,6 +31,10 @@ const Otp: React.FC = () => {
                 inputRefs.current[index - 1]?.focus(); // Chuyển về ô trước đó
             }
         }
+
+        if (event.key === "Enter") {
+            handleVerifyOtp(); // Submit khi nhấn Enter
+        }
     };
 
     const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
@@ -47,9 +52,15 @@ const Otp: React.FC = () => {
             const response = await verifyOtp(phoneNumber, otp.join(''));
             console.log(response)
             setAccessToken(response.data.data.token);
+            setCurrentUser(await getUserInfo())
             navigate('/');
         } catch (error) {
-            alert('Invalid OTP');
+            await Swal.fire({
+                icon: "error",
+                title: "OTP Invalid",
+                text: "Pls check OTP code again or contact to admin.",
+                confirmButtonText: "OK",
+            });
         }
     };
 
