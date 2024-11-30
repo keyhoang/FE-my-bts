@@ -11,7 +11,7 @@ import {
     updateApprovedTicketFuel,
     updateApprovedTicketPrice
 } from "../../services/api";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const Detail: React.FC = () => {
     const [ticketDetail, setTicketDetail] = useState<any>(null);
@@ -23,20 +23,44 @@ const Detail: React.FC = () => {
     const [errorInputFuel, setErrorInputFuel] = useState<string | null>(null);
     const [errorInputPrice, setErrorInputPrice] = useState<string | null>(null);
     const [errorInputPriceRefuel, setErrorInputPriceRefuel] = useState<string | null>(null);
+    const [isApproved, setIsApproved] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchTicketDetail = async () => {
-            try {
-                const ticketId = id ? parseInt(id) : 0;
-                const response = await getTicketDetail(ticketId);
-                setTicketDetail(response);
-            } catch (error) {
-                console.error("Error fetching ticket details:", error);
-            }
+            const ticketId = id ? parseInt(id) : 0;
+            await getTicketDetail(ticketId).then((response) => {
+                console.log(1, response)
+                setTicketDetail(response.data);
+                if (ticketDetail.staffAmount) {
+                    setInputFuel(String(ticketDetail.staffAmount));
+                }
+
+                if (ticketDetail.supervisorAmount) {
+                    setInputPrice(String(ticketDetail.supervisorAmount));
+                }
+
+                if (ticketDetail.pricePerFuel) {
+                    setInputPriceRefuel(String(ticketDetail.pricePerFuel));
+                }
+
+                return;
+            }).catch(() => {
+                console.log(2)
+                Swal.fire({
+                    icon: "error",
+                    title: "Failed to fetch ticket details",
+                }).then(() => {
+                    setTimeout(() => {
+                        navigate(`/`);
+                    }, 5000);
+                });
+            });
         };
 
         fetchTicketDetail();
-    }, []);
+    }, [id, isApproved]);
 
     const checkStatusSubmit = () => {
         return ticketDetail && ticketDetail.status === 'SUBMITTED';
@@ -103,7 +127,9 @@ const Detail: React.FC = () => {
                     setErrorInputFuel("Approve fuel is required.");
                     return;
                 }
-                await approvedTicketFuel(ticketId, parseFloat(inputFuel)).then().catch((res) => {
+                await approvedTicketFuel(ticketId, parseFloat(inputFuel)).then(() => {
+                    setIsApproved(true);
+                }).catch((res) => {
                     Swal.fire({
                         icon: "error",
                         title: res.response.data.message,
@@ -123,7 +149,9 @@ const Detail: React.FC = () => {
                         return;
                     }
                 }
-                await approvedTicketPrice(ticketId, parseFloat(inputPriceRefuel), parseFloat(inputPrice)).then().catch((res) => {
+                await approvedTicketPrice(ticketId, parseFloat(inputPriceRefuel), parseFloat(inputPrice)).then(() => {
+                    setIsApproved(true);
+                }).catch((res) => {
                     Swal.fire({
                         icon: "error",
                         title: res.response.data.message,
