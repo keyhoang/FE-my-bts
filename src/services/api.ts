@@ -1,6 +1,4 @@
-// src/services/api.ts
-import axios from 'axios';
-import { SearchTicket } from "../model/searchTicket";
+import axios from './clientAxios';
 import { UserInfo } from "../model/UserInfo";
 import { TicketDetail } from "../model/TicketDetail";
 import { FormValues, OptionSelect, TicketItemList } from '../types/homePage';
@@ -59,10 +57,7 @@ export const search = async (params: FormValues): Promise<TicketItemList[]> => {
 
 const fetchData = async (url: string): Promise<OptionSelect[]> => {
     try {
-        let token = localStorage.getItem("access_token");
-        const response = await axios.get(url, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(url);
 
         return response.data.data?.map((item: string) => ({
             label: item,
