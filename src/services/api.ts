@@ -41,60 +41,75 @@ export const getTicketDetail = async (id: number): Promise<any> => {
 
 export const approvedTicketFuel = async(id: number, amount: number|string): Promise<TicketDetail> => {
     try {
-        let token = localStorage.getItem("access_token");
         const params = { amount: amount };
-        const response = await axios.post(`${API_BASE_URL}/tickets/amount-approve/${id}`, params, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-
-        return response.data.data as TicketDetail;
-    } catch (error) {
-        console.error("Error approve fuel ticket data:", error);
+        return await axiosInstance.post(`${API_BASE_URL}/tickets/amount-approve/${id}`, params);
+    } catch (error: any) {
         throw error;
     }
+
+    // try {
+    //     let token = localStorage.getItem("access_token");
+    //     const params = { amount: amount };
+    //     const response = await axios.post(`${API_BASE_URL}/tickets/amount-approve/${id}`, params, {
+    //         headers: { Authorization: `Bearer ${token}` },
+    //     });
+    //
+    //     return response.data.data as TicketDetail;
+    // } catch (error) {
+    //     console.error("Error approve fuel ticket data:", error);
+    //     throw error;
+    // }
 }
 
 export const approvedTicketPrice = async(id: number, pricePerFuel: number|string, price: number|string) => {
     try {
-        let token = localStorage.getItem("access_token");
         const params = { pricePerFuel: pricePerFuel, price: price};
-        const response = await axios.post(`${API_BASE_URL}/tickets/price-approve/${id}`, params, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-
-        return response.data.data;
-    } catch (error) {
-        console.error("Error approve ticket price data:", error);
+        return await axiosInstance.post(`${API_BASE_URL}/tickets/price-approve/${id}`, params);
+    } catch (error: any) {
         throw error;
     }
+
+    // try {
+    //     let token = localStorage.getItem("access_token");
+    //     const params = { pricePerFuel: pricePerFuel, price: price};
+    //     const response = await axios.post(`${API_BASE_URL}/tickets/price-approve/${id}`, params, {
+    //         headers: { Authorization: `Bearer ${token}` },
+    //     });
+    //
+    //     return response.data.data;
+    // } catch (error) {
+    //     console.error("Error approve ticket price data:", error);
+    //     throw error;
+    // }
 }
 
 export const updateApprovedTicketPrice = async(id: number, pricePerFuel: number|string, amount: number|string, note: string) => {
     try {
-        let token = localStorage.getItem("access_token");
         const params = { price: amount, note: note, pricePerFuel: pricePerFuel};
-        const response = await axios.post(`${API_BASE_URL}/tickets/update-price-approve/${id}`, params, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-
-        return response.data.data as TicketDetail;
-    } catch (error) {
-        console.error("Error update approve ticket price data:", error);
+        return await axiosInstance.post(`${API_BASE_URL}/tickets/update-price-approve/${id}`, params);
+    } catch (error: any) {
         throw error;
     }
+
+    // try {
+    //     let token = localStorage.getItem("access_token");
+    //     const params = { price: amount, note: note, pricePerFuel: pricePerFuel};
+    //     const response = await axios.post(`${API_BASE_URL}/tickets/update-price-approve/${id}`, params, {
+    //         headers: { Authorization: `Bearer ${token}` },
+    //     });
+    //
+    //     return response.data.data as TicketDetail;
+    // } catch (error) {
+    //     console.error("Error update approve ticket price data:", error);
+    //     throw error;
+    // }
 }
 
 export const updateApprovedTicketFuel = async(id: number, price: number|string, note: string) => {
     try {
-        let token = localStorage.getItem("access_token");
         const params = { note: note, amount: price};
-        const response = await axios.post(`${API_BASE_URL}/tickets/update-amount-approve/${id}`, params, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-
-        return response.data.data;
-    } catch (error) {
-        console.error("Error update approve ticket fuel data:", error);
+        return await axiosInstance.post(`${API_BASE_URL}/tickets/update-amount-approve/${id}`, params);
+    } catch (error: any) {
         throw error;
     }
 }
