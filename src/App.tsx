@@ -5,10 +5,10 @@ import ProtectedRoute from './routes/protectedRoute';
 import Login from "./components/login/login";
 import Otp from "./components/otp/otp";
 import Detail from "./components/Detail/detail";
-import HomePage from './pages/HomePage';
 import "./assets/main.scss"; 
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
+import HomePage from './components/HomePage/HomePage';
 
 const App: React.FC = () => {
   return (
