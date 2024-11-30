@@ -33,6 +33,10 @@ axiosInstance.interceptors.response.use(
 
 axiosInstance.interceptors.response.use(
     (response) => {
+        if (response.config.responseType === 'blob') {
+            return response;
+        }
+
         if (response.data && response.data.code === 200) {
             return response.data;
         } else {
