@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './routes/protectedRoute';
 import Login from "./components/login/login";
 import Otp from "./components/otp/otp";
+import Detail from "./components/Detail/detail";
 import HomePage from './pages/HomePage';
 import "./assets/main.scss"; 
 import '@fortawesome/fontawesome-free/css/all.css';
@@ -23,6 +24,7 @@ const App: React.FC = () => {
                 </ProtectedRoute>
               }
           />
+            <Route path="/ticket-detail/:id" element={<Detail />} />
         </Routes>
       </Router>
   );
