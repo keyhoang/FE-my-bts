@@ -3,9 +3,10 @@ import FormSearch from '../../components/HomePage/FormSearch';
 import DefaultLayout from '../../layouts/DefaultLayout';
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { FormValues, OptionSelect, TicketItemList } from '../../types/homePage';
-import { getAllBranches, getAllCompany, getAllTownships, search } from '../../services/api';
+import { getAllBranches, getAllCompany, getAllTownships, getTicketDetail, search } from '../../services/api';
 import TicketItems from './TicketItems';
 import { formatDate } from '../../utils/dateTime';
+import { error } from 'console';
 
 const HomePage: React.FC = () => {
     const [openFormSearch, setOpenFormSearch] = useState(false);
