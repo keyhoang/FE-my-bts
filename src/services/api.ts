@@ -8,10 +8,10 @@ import { FormValues, OptionSelect, TicketItemList } from '../types/homePage';
 const API_BASE_URL = 'http://171.244.3.117:8080/bts/api/v1';
 
 export const login = (phoneNumber: string) =>
-    axios.post(`${API_BASE_URL}/auth/send-otp-login`, { phoneNumber: phoneNumber });
+    axios.post(`${API_BASE_URL}/auth/send-otp-login-web`, { phoneNumber: phoneNumber });
 
 export const verifyOtp = (phoneNumber: string, otp: string) =>
-    axios.post(`${API_BASE_URL}/auth/login`, { phoneNumber: phoneNumber, otpCode: otp });
+    axios.post(`${API_BASE_URL}/auth/login-web`, { phoneNumber: phoneNumber, otpCode: otp });
 
 export const getUserInfo = async (): Promise<UserInfo> => {
     try {
