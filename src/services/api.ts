@@ -32,7 +32,7 @@ export const getTicketDetail = async (id: number): Promise<any> => {
     // })
 
     try {
-        return await axiosInstance.get(`${API_BASE_URL}}/bts/api/v1/tickets/${id}`);
+        return await axiosInstance.get(`${API_BASE_URL}/bts/api/v1/tickets/${id}`);
     } catch (error: any) {
         throw error;
     }
