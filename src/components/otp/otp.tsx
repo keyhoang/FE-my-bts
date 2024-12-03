@@ -1,7 +1,7 @@
 // src/pages/Otp.tsx
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {getUserInfo, verifyOtp} from "../../services/api";
+import {getUserInfo, login, verifyOtp} from "../../services/api";
 import {setAccessToken, setCurrentUser} from "../../utils/auth";
 import "./otp.css";
 import Swal from "sweetalert2"; // Import SweetAlert2
@@ -12,7 +12,44 @@ const Otp: React.FC = () => {
     const phoneNumber = location.state?.phoneNumber;
     const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
     const [otp, setOtp] = useState(Array(4).fill(''));
+    const [counter, setCounter] = useState(60); // Thời gian đếm ngược
+    const [, setIsDisabled] = useState(false); // Trạng thái nút resend OTP
 
+    const handleResendOTP = () => {
+        resendOtp();
+        setCounter(60); // Đặt thời gian đếm ngược 60 giây
+        setIsDisabled(true); // Disable nút
+    };
+
+    const resendOtp = async () => {
+        try {
+            await login(phoneNumber);
+            navigate('/otp', {state: {phoneNumber}});
+        } catch (error) {
+            await Swal.fire({
+                icon: "error",
+                title: "Phone Number invalid",
+                text: "Pls check OTP code again or contact to admin.",
+                confirmButtonText: "OK",
+            });
+        }
+    };
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout | null = null;
+
+        if (counter > 0) {
+            timer = setInterval(() => {
+                setCounter((prevCounter) => prevCounter - 1);
+            }, 1000);
+        } else {
+            setIsDisabled(false); // Enable nút khi hết thời gian
+        }
+
+        return () => {
+            if (timer) clearInterval(timer);
+        };
+    }, [counter]);
     const handleInputChange = (index: number, value: string) => {
         if (!/^\d*$/.test(value)) return; // Chỉ cho phép nhập số
 
@@ -93,6 +130,19 @@ const Otp: React.FC = () => {
                         </div>
                         <button className="otp-button" onClick={handleVerifyOtp}>Login</button>
 
+                        <p>
+                            {counter > 0
+                                ? `Please wait ${counter} seconds to resend OTP.`
+                                : "Didn't receive OTP? "}
+                            {counter === 0 && (
+                                <span
+                                    onClick={handleResendOTP}
+                                    style={{color: "blue", cursor: "pointer", textDecoration: "underline"}}
+                                >
+                                Click here to resend.
+                                </span>
+                            )}
+                        </p>
                     </div>
                 </div>
             </div>

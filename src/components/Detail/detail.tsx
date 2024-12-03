@@ -341,7 +341,7 @@ const Detail: React.FC = () => {
                                     {errorInputPrice && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPrice}</p>}
                                 </div>
                                 <div className={'d-flex flex-column'}>
-                                    <span className={'input-title'}>Price at the time of refueling</span>
+                                    <span className={'input-title'}>Price of Authorized/Government fuel station at the time or refueling</span>
                                     <div className="input-wrapper">
                                         <input className="input-approved"
                                                type="text"
