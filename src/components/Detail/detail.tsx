@@ -308,7 +308,7 @@ const Detail: React.FC = () => {
                         <div className={'detail-main'}>
                             <div className={'detail-status'}>{ getStatusLabel() }</div>
                             <div className={'pt-4 d-flex justify-content-between input-list'}>
-                                <div className={'d-flex flex-column'}>
+                                <div className={'d-flex flex-column w-100'}>
                                     <span className={'input-title'}>Approve Fuel</span>
                                     <div className="input-wrapper">
                                         <input className="input-approved"
@@ -324,39 +324,43 @@ const Detail: React.FC = () => {
                                     </div>
                                     {errorInputFuel && <p style={{ color: "red", fontSize: "14px" }}>{errorInputFuel}</p>}
                                 </div>
-                                <div className={'d-flex flex-column'}>
-                                    <span className={'input-title'}>Approve Price</span>
-                                    <div className="input-wrapper">
-                                        <input className="input-approved"
-                                               type="text"
-                                               value={inputPrice}
-                                               onChange={handleInputPrice}
-                                               disabled={ checkDisableApprovePrice() }
-                                        />
-                                        <span className="input-suffix">
-                                            <span className="separator">|</span>
-                                            <span className="text">$/L</span>
-                                        </span>
-                                    </div>
-                                    {errorInputPrice && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPrice}</p>}
-                                </div>
-                                <div className={'d-flex flex-column'}>
-                                    <span className={'input-title'}>Price of Authorized/Government fuel station at the time or refueling</span>
-                                    <div className="input-wrapper">
-                                        <input className="input-approved"
-                                               type="text"
-                                               value={inputPriceRefuel}
-                                               onChange={handleInputPriceRefuel}
-                                               disabled={ checkDisableApprovePrice() }
-                                        />
-                                        <span className="input-suffix">
-                                            <span className="separator">|</span>
-                                            <span className="text">$/L</span>
-                                        </span>
-                                    </div>
-                                    {errorInputPriceRefuel && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPriceRefuel}</p>}
-                                </div>
                             </div>
+                            {!checkDisableApprovePrice() && (
+                                <div className={'pt-4 d-flex justify-content-between input-list'}>
+                                    <div className={'d-flex flex-column'}>
+                                        <span className={'input-title'}>Approve Price</span>
+                                        <div className="input-wrapper">
+                                            <input className="input-approved"
+                                                   type="text"
+                                                   value={inputPrice}
+                                                   onChange={handleInputPrice}
+                                                   disabled={ checkDisableApprovePrice() }
+                                            />
+                                            <span className="input-suffix">
+                                            <span className="separator">|</span>
+                                            <span className="text">$/L</span>
+                                        </span>
+                                        </div>
+                                        {errorInputPrice && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPrice}</p>}
+                                    </div>
+                                    <div className={'d-flex flex-column'}>
+                                        <span className={'input-title'}>Price of Authorized/Government fuel station at the time or refueling</span>
+                                        <div className="input-wrapper">
+                                            <input className="input-approved"
+                                                   type="text"
+                                                   value={inputPriceRefuel}
+                                                   onChange={handleInputPriceRefuel}
+                                                   disabled={ checkDisableApprovePrice() }
+                                            />
+                                            <span className="input-suffix">
+                                            <span className="separator">|</span>
+                                            <span className="text">$/L</span>
+                                        </span>
+                                        </div>
+                                        {errorInputPriceRefuel && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPriceRefuel}</p>}
+                                    </div>
+                                </div>
+                            )}
                             <div className={'detail-info'}>
                                 <div className={'d-flex justify-content-between'}>
                                     <span>Station code</span>
