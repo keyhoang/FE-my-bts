@@ -165,7 +165,6 @@
             box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
             border-radius: 30px;
             margin: 15px 0;
-            cursor: pointer;
             transition: all 0.5s;
 
             &:hover {
@@ -180,6 +179,7 @@
                 .item-card-header-left {
                     display: flex;
                     flex-direction: column;
+                    cursor: pointer;
 
                     .text-header {
                         font-size: 25px;
@@ -232,17 +232,24 @@
 
                     >div {
                         width: 50%;
+                        border-right: 1px solid #D5DEE8;
+                    }
+
+                    >div:last-child {
+                        border-right: none !important; 
                     }
 
                     .item-card-content-field {
                         width: 100%;
                         padding: 15px;
                         border-top: 1px solid #D5DEE8;
-                        border-right: 1px solid #D5DEE8;
                         display: flex;
                         justify-content: space-between;
+                        gap: 5px;
 
                         span {
+                            font-size: 14px;
+                            word-break: break-word;
                             &:first-child {
                                 font-weight: 500;
                             }

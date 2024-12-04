@@ -26,9 +26,9 @@ const TicketItems: React.FC<Props> = ({ticketDetail}) => {
     return (
         <>
             <div className="col-xl-3 col-sm-6 col-sx-12">
-                <div className="item-card" onClick={() => handleClickDetailTicket(ticketDetail.id)}>
+                <div className="item-card">
                     <div className="item-card-header">
-                        <div className="item-card-header-left">
+                        <div className="item-card-header-left" onClick={() => handleClickDetailTicket(ticketDetail.id)}>
                             <span className='text-header'>
                                 {ticketDetail?.stationCode}
                             </span>
