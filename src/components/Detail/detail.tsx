@@ -338,7 +338,7 @@ const Detail: React.FC = () => {
                                             />
                                             <span className="input-suffix">
                                             <span className="separator">|</span>
-                                            <span className="text">$/L</span>
+                                            <span className="text">MMK/L</span>
                                         </span>
                                         </div>
                                         {errorInputPrice && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPrice}</p>}
@@ -354,7 +354,7 @@ const Detail: React.FC = () => {
                                             />
                                             <span className="input-suffix">
                                             <span className="separator">|</span>
-                                            <span className="text">$/L</span>
+                                            <span className="text">MMK/L</span>
                                         </span>
                                         </div>
                                         {errorInputPriceRefuel && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPriceRefuel}</p>}
@@ -374,7 +374,7 @@ const Detail: React.FC = () => {
                                 <hr/>
                                 <div className={'d-flex justify-content-between'}>
                                     <span>Price</span>
-                                    <span className={'fw-bold'}>{ ticketDetail?.staffPrice }$/L</span>
+                                    <span className={'fw-bold'}>{ ticketDetail?.staffPrice }MMK/L</span>
                                 </div>
                                 <hr/>
                                 <div className={'d-flex justify-content-between'}>
