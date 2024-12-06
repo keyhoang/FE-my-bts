@@ -369,7 +369,7 @@ const Detail: React.FC = () => {
                                 <hr/>
                                 <div className={'d-flex justify-content-between'}>
                                     <span>Fuel</span>
-                                    <span className={'fw-bold'}>{ ticketDetail?.staffAmount }</span>
+                                    <span className={'fw-bold'}>{ ticketDetail?.staffAmount + "/L" }</span>
                                 </div>
                                 <hr/>
                                 <div className={'d-flex justify-content-between'}>
