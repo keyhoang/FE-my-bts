@@ -84,15 +84,17 @@ const TicketItems: React.FC<Props> = ({ticketDetail}) => {
                                         {
                                             <div>
                                                 <div className="item-card-content-field">
-                                                    <span>Approve price</span>
-                                                    {
-                                                        ['SUPERVISOR_LEVEL_1', 'HO_LEVEL_1'].includes(getCurrentUser()?.role) ? null : (
-                                                            (
+
+                                                {
+                                                    ['SUPERVISOR_LEVEL_1', 'HO_LEVEL_1'].includes(getCurrentUser()?.role) ? null : (
+                                                            <>
+                                                                <span>Approve price</span>
                                                                 <span>{ticketDetail?.supervisorPrice}MMK/L </span>
-                                                            )
-                                                        )
-                                                    }
-                                                </div>
+                                                            </>
+                                                    )
+                                                }
+                                            </div>
+
                                             </div>
 
                                         }

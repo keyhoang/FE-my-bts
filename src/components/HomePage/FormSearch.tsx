@@ -89,6 +89,14 @@ const FormSearch: React.FC<Props> = ({
                                             primary: "#FD6D1A",
                                         },
                                     })}
+                                    styles={{
+                                        // Customize the dropdown options' text color
+                                        option: (base, state) => ({
+                                            ...base,
+                                            color: state.isSelected ? "white" : state.data.color, // White for selected, dynamic for others
+                                            cursor: "pointer",
+                                        }),
+                                    }}
                                     onChange={(selectedOption) => handleChangeSelect(selectedOption, 'status')}
                                     value={StatusOptinal.find(option => option.value === field.value)}
                                 />

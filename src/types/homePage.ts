@@ -19,16 +19,19 @@ export interface FormValues {
 
 export const StatusOptinal = [
     {
-        label: "APPROVED_FUEL",
-        value: StatusEnums.APPROVED_FUEL
+        label: "Approve fuel",
+        value: StatusEnums.APPROVED_FUEL,
+        color: '#007AFF'
     },
     {
-        label: "APPROVED_PRICE",
-        value: StatusEnums.APPROVED_PRICE
+        label: "Approve price",
+        value: StatusEnums.APPROVED_PRICE,
+        color: '#00C7BE'
     },
     {
-        label: "SUBMITTED",
-        value: StatusEnums.SUBMITTED
+        label: "Submitted",
+        value: StatusEnums.SUBMITTED,
+        color: '#34C759'
     }
 ];
 
