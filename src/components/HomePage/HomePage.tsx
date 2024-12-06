@@ -5,9 +5,12 @@ import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { FormValues, OptionSelect, TicketItemList } from '../../types/homePage';
 import { downloadFile, getAllBranches, getAllCompany, getAllTownships, search } from '../../services/api';
 import TicketItems from './TicketItems';
-import { formatDate } from '../../utils/dateTime';
+import { formatDate, handleDateFormSearch } from '../../utils/dateTime';
+import { useTranslation } from 'react-i18next';
 
 const HomePage: React.FC = () => {
+    const { t, i18n } = useTranslation('homePage');
+
     const [openFormSearch, setOpenFormSearch] = useState(false);
     const [companies, setCompanies] = useState<OptionSelect[]>([]);
     const [branches, setBranches] = useState<OptionSelect[]>([]);
@@ -18,13 +21,14 @@ const HomePage: React.FC = () => {
     const sevenDaysAgo = new Date(today);
     sevenDaysAgo.setDate(today.getDate() - 7);
 
+    const [startDateFormSearch, endDateFormSearch] = handleDateFormSearch();
     const methods = useForm<FormValues>({
         shouldFocusError: false,
         defaultValues: {
             page: 1,
             size: 100,
-            startDate: formatDate(sevenDaysAgo),
-            endDate: formatDate(today)
+            startDate: startDateFormSearch,
+            endDate: endDateFormSearch
         }
     });
     const formValues = methods.watch();
@@ -76,7 +80,7 @@ const HomePage: React.FC = () => {
                             <div className='group-btn-export'>
                                 <button className="btn-custom-primary" onClick={() => handleDownloadFile(formValues)}>
                                     <i className="fa-solid fa-file-arrow-down"></i>
-                                    Export
+                                    {t('title_btn_export')}
                                 </button>
                             </div>
                         </div>

@@ -11,3 +11,11 @@ export const formatDate = (date: Date | string, delimiter: string = "-"): string
 
     return [year, month, day].join(delimiter);
 };
+
+export const handleDateFormSearch = () => {
+    const today = new Date();
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
+    return [formatDate(sevenDaysAgo), formatDate(today)];
+}

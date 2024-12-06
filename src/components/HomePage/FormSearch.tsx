@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Select from 'react-select';
 import { OptionSelect, StatusOptinal } from '../../types/homePage';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
+import { handleDateFormSearch } from '../../utils/dateTime';
 
 interface Props {
     funcOpenFormSearch: (isOpen: boolean) => void;
@@ -26,14 +27,29 @@ const FormSearch: React.FC<Props> = ({
 
     console.log("watch", watch());
 
+    const [startDateFormSearch, endDateFormSearch] = handleDateFormSearch();
+    const startDate = useWatch({ name: 'startDate', control });
+    const endDate = useWatch({ name: 'endDate', control });
+
     // function to handle select change and set form value
     const handleChangeSelect = (selectedOption: OptionSelect | null, keyForm: string) => {
         if (selectedOption) {
             setValue(keyForm, selectedOption?.value);
-        }else{
+        } else {
             setValue(keyForm, "");
         }
     };
+
+    // side effect 
+    useEffect(() => {
+        if (startDate === "") {
+            setValue('startDate', startDateFormSearch);
+        }
+
+        if (endDate === "") {
+            setValue('endDate', endDateFormSearch);
+        }
+    }, [startDate, endDate]);
 
     return (
         <div
