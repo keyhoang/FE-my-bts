@@ -3,20 +3,21 @@ import { initReactI18next } from 'react-i18next';
 import Backend from 'i18next-http-backend';
 
 // language import
-import HomePageEN from './lang/en/home_page.json';
-import HomePagebMy from './lang/my/home_page.json';
+import HomePageEN from './lang/en/translation.json';
+import HomePagebMy from './lang/my/translation.json';
 
 const resources = {
     en: {
-        homePage: HomePageEN
+        translation: HomePageEN
     },
     my: {
-        homePage: HomePagebMy
+        translation: HomePagebMy
     }
+
 };
 
 export const langSupports = ['en', 'my'];
-export const langDefault = 'en'; 
+export const langDefault = 'my';
 
 export const getLanguage = () => {
     let storageLanguage = sessionStorage.getItem('selectedLanguage') ?? "";

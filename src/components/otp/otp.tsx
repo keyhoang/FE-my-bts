@@ -4,9 +4,11 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {getUserInfo, login, verifyOtp} from "../../services/api";
 import {setAccessToken, setCurrentUser} from "../../utils/auth";
 import "./otp.css";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
+import {useTranslation} from "react-i18next"; // Import SweetAlert2
 
 const Otp: React.FC = () => {
+    const { t} = useTranslation('translation');
     const location = useLocation();
     const navigate = useNavigate();
     const phoneNumber = location.state?.phoneNumber;
@@ -28,8 +30,8 @@ const Otp: React.FC = () => {
         } catch (error) {
             await Swal.fire({
                 icon: "error",
-                title: "Phone Number invalid",
-                text: "Pls check OTP code again or contact to admin.",
+                title: t('otp_invalid'),
+                text: t('otp_invalid_des'),
                 confirmButtonText: "OK",
             });
         }
@@ -93,8 +95,8 @@ const Otp: React.FC = () => {
         } catch (error) {
             await Swal.fire({
                 icon: "error",
-                title: "OTP Invalid",
-                text: "Pls check OTP code again or contact to admin.",
+                title: t('otp_invalid'),
+                text: t('otp_invalid_des'),
                 confirmButtonText: "OK",
             });
         }
@@ -111,8 +113,8 @@ const Otp: React.FC = () => {
                 <div className="login-content">
                     {/* Phần bên trái */}
                     <div className="login-left">
-                        <h1 className="login-title">Enter OTP</h1>
-                        <p className="login-subtitle">A 4 digit code has been sent to {phoneNumber}</p>
+                        <h1 className="login-title">{t('otp_title')}</h1>
+                        <p className="login-subtitle">{t('otp_subtitle',{phoneNumber})} </p>
                         <div className="otp-input-container">
                             {otp.map((_, index) => (
                                 <input
@@ -128,18 +130,18 @@ const Otp: React.FC = () => {
                                 />
                             ))}
                         </div>
-                        <button className="otp-button" onClick={handleVerifyOtp}>Login</button>
+                        <button className="otp-button" onClick={handleVerifyOtp}>{t('otp_button')}</button>
 
                         <p>
                             {counter > 0
-                                ? `Please wait ${counter} seconds to resend OTP.`
-                                : "Didn't receive OTP? "}
+                                ? t('otp_counting',{counter})
+                                : t('otp_counting2')}
                             {counter === 0 && (
                                 <span
                                     onClick={handleResendOTP}
                                     style={{color: "blue", cursor: "pointer", textDecoration: "underline"}}
                                 >
-                                Click here to resend.
+                                {t('otp_resend')}
                                 </span>
                             )}
                         </p>

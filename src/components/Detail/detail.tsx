@@ -11,8 +11,10 @@ import {
     updateApprovedTicketPrice
 } from "../../services/api";
 import {useNavigate, useParams} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const Detail: React.FC = () => {
+    const { t} = useTranslation('translation');
     const [ticketDetail, setTicketDetail] = useState<any>(null);
     const { id } = useParams<{ id?: string }>();
     const [inputFuel, setInputFuel] = useState('');
@@ -301,7 +303,7 @@ const Detail: React.FC = () => {
                         <div className={'detail-header'}>
                             <div>
                                 <img className={'icon-back pb-3 pe-2'} src={iconBack} onClick={handleBackClick} style={{ cursor: "pointer" }}/>
-                                <span className={'detail-title fw-bold'}>Detail</span>
+                                <span className={'detail-title fw-bold'}>{t('detail')}</span>
                             </div>
                             {!(checkRoleFuel() && checkStatusApprovePrice()) && (<button className={'btn-approve'} onClick={submit}>{ getButtonLabel() }</button>)}
                         </div>
@@ -309,7 +311,7 @@ const Detail: React.FC = () => {
                             <div className={'detail-status'}>{ getStatusLabel() }</div>
                             <div className={'pt-4 d-flex justify-content-between input-list'}>
                                 <div className={'d-flex flex-column w-100'}>
-                                    <span className={'input-title'}>Approve Fuel</span>
+                                    <span className={'input-title'}>{t('approve-fuel')}</span>
                                     <div className="input-wrapper">
                                         <input className="input-approved"
                                                type="text"
@@ -328,7 +330,7 @@ const Detail: React.FC = () => {
                             {!checkDisableApprovePrice() && (
                                 <div className={'pt-4 d-flex justify-content-between input-list'}>
                                     <div className={'d-flex flex-column'}>
-                                        <span className={'input-title'}>Approve Price</span>
+                                        <span className={'input-title'}>{t('approve-price')}</span>
                                         <div className="input-wrapper">
                                             <input className="input-approved"
                                                    type="text"
@@ -344,7 +346,7 @@ const Detail: React.FC = () => {
                                         {errorInputPrice && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPrice}</p>}
                                     </div>
                                     <div className={'d-flex flex-column'}>
-                                        <span className={'input-title'}>Price of Authorized/Government fuel station at the time or refueling</span>
+                                        <span className={'input-title'}>{t('price-of')}</span>
                                         <div className="input-wrapper">
                                             <input className="input-approved"
                                                    type="text"
@@ -363,27 +365,27 @@ const Detail: React.FC = () => {
                             )}
                             <div className={'detail-info'}>
                                 <div className={'d-flex justify-content-between'}>
-                                    <span>Station code</span>
+                                    <span>{t('station-code')}</span>
                                     <span className={'fw-bold'}>{ ticketDetail?.stationCode }</span>
                                 </div>
                                 <hr/>
                                 <div className={'d-flex justify-content-between'}>
-                                    <span>Fuel</span>
+                                    <span>{t('fuel')}</span>
                                     <span className={'fw-bold'}>{ ticketDetail?.staffAmount + "/L" }</span>
                                 </div>
                                 <hr/>
                                 <div className={'d-flex justify-content-between'}>
-                                    <span>Price</span>
+                                    <span>{t('price')}</span>
                                     <span className={'fw-bold'}>{ ticketDetail?.staffPrice }MMK/L</span>
                                 </div>
                                 <hr/>
                                 <div className={'d-flex justify-content-between'}>
-                                    <span>Location</span>
+                                    <span>{t('location')}</span>
                                     <span className={'fw-bold'}>Lat: { ticketDetail?.latitude }, Lng: { ticketDetail?.longitude }</span>
                                 </div>
                                 <hr/>
                                 <div className={'d-flex flex-column'}>
-                                    <span className={'pb-4'}>Bill</span>
+                                    <span className={'pb-4'}>{t('bill')}</span>
                                     {ticketDetail?.billUrl && (
                                         <img
                                             className="icon-back pb-3 pe-2"
@@ -393,7 +395,7 @@ const Detail: React.FC = () => {
                                     )}
                                 </div>
                                 <div className="d-flex flex-column">
-                                    <span className="pb-4">File</span>
+                                    <span className="pb-4">{t('file')}</span>
                                     {ticketDetail?.ticketFiles.length > 0 ? (
                                         ticketDetail.ticketFiles.map((file: any) => (
                                             <div key={file.id}

@@ -3,6 +3,7 @@ import Select from 'react-select';
 import { OptionSelect, StatusOptinal } from '../../types/homePage';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { handleDateFormSearch } from '../../utils/dateTime';
+import {useTranslation} from "react-i18next";
 
 interface Props {
     funcOpenFormSearch: (isOpen: boolean) => void;
@@ -17,7 +18,7 @@ const FormSearch: React.FC<Props> = ({
     branches,
     townships
 }) => {
-
+    const { t} = useTranslation('translation');
     const {
         register,
         control,
@@ -57,14 +58,14 @@ const FormSearch: React.FC<Props> = ({
             onClick={(e) => e.stopPropagation()}
         >
             <div className="blog-search-advanced-header">
-                <h4>Filter</h4>
+                <h4>{t('filter')}</h4>
             </div>
 
             <div className="blog-search-advanced-content">
                 <div className="blog-search-advanced-content-item">
                     <div className="blog-search-advanced-content-item-date">
                         <div className="form-group">
-                            <label htmlFor="">From:</label>
+                            <label htmlFor="">{t('from')}:</label>
                             <input
                                 type="date"
                                 className="form-control"
@@ -75,7 +76,7 @@ const FormSearch: React.FC<Props> = ({
                     </div>
                     <div className="blog-search-advanced-content-item-date">
                         <div className="form-group">
-                            <label htmlFor="">To:</label>
+                            <label htmlFor="">{t('to')}:</label>
                             <input
                                 type="date"
                                 className="form-control"
@@ -88,7 +89,7 @@ const FormSearch: React.FC<Props> = ({
 
                 <div className="blog-search-advanced-content-item">
                     <div className="form-group">
-                        <label htmlFor="">Status:</label>
+                        <label htmlFor="">{t('status')}:</label>
                         <Controller
                             name="status"
                             control={control}
@@ -123,7 +124,7 @@ const FormSearch: React.FC<Props> = ({
 
                 <div className="blog-search-advanced-content-item">
                     <div className="form-group">
-                        <label htmlFor="">Company:</label>
+                        <label htmlFor="">{t('company')}:</label>
                         <Controller
                             name="company"
                             control={control}
@@ -150,7 +151,7 @@ const FormSearch: React.FC<Props> = ({
 
                 <div className="blog-search-advanced-content-item">
                     <div className="form-group">
-                        <label htmlFor="">Branch:</label>
+                        <label htmlFor="">{t('branch')}:</label>
                         <Controller
                             name="branch"
                             control={control}
@@ -177,7 +178,7 @@ const FormSearch: React.FC<Props> = ({
 
                 <div className="blog-search-advanced-content-item">
                     <div className="form-group">
-                        <label htmlFor="">Township:</label>
+                        <label htmlFor="">{t('township')}:</label>
                         <Controller
                             name="township"
                             control={control}
@@ -204,11 +205,11 @@ const FormSearch: React.FC<Props> = ({
 
                 <div className="d-flex justify-content-center gap-3 blog-search-advanced-content-item">
                     <button type="button" onClick={() => funcOpenFormSearch(false)}>
-                        Cancel
+                        {t('cancel')}
                     </button>
 
                     <button type="submit">
-                        Apply
+                        {t('apply')}
                     </button>
                 </div>
             </div>

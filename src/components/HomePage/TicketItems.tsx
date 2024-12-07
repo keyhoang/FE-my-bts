@@ -2,12 +2,14 @@ import React from 'react';
 import {StatusClassBinding, TicketItemList} from '../../types/homePage';
 import {StatusEnums} from '../../enums/statusEnums';
 import {useNavigate} from 'react-router-dom';
+import {useTranslation} from "react-i18next";
 
 interface Props {
     ticketDetail: TicketItemList
 }
 
 const TicketItems: React.FC<Props> = ({ticketDetail}) => {
+    const { t} = useTranslation('translation');
     const navigate = useNavigate();
 
     const bindingClassStatus = (status: keyof typeof StatusEnums): string => {
@@ -48,11 +50,11 @@ const TicketItems: React.FC<Props> = ({ticketDetail}) => {
                             ticketDetail?.status === StatusEnums.SUBMITTED ? (
                                 <>
                                     <div className="item-card-content-field">
-                                        <span>Fuel</span>
+                                        <span>{t('fuel')}</span>
                                         <span>{ticketDetail?.staffAmount}L</span>
                                     </div>
                                     <div className="item-card-content-field">
-                                        <span>Price</span>
+                                        <span>{t('price')}</span>
                                         <span>{ticketDetail?.staffPrice}MMK/L</span>
                                     </div>
                                 </>
@@ -61,14 +63,14 @@ const TicketItems: React.FC<Props> = ({ticketDetail}) => {
                                     <div className="item-card-content-field-many">
                                         <div>
                                             <div className="item-card-content-field">
-                                                <span>Fuel</span>
+                                                <span>{t('fuel')}</span>
                                                 <span>{ticketDetail?.staffAmount}L</span>
                                             </div>
                                         </div>
 
                                         <div>
                                             <div className="item-card-content-field">
-                                                <span>Approve fuel</span>
+                                                <span>{t('approve-fuel')}</span>
                                                 <span>{ticketDetail?.supervisorAmount}/L</span>
                                             </div>
                                         </div>
@@ -77,7 +79,7 @@ const TicketItems: React.FC<Props> = ({ticketDetail}) => {
                                     <div className="item-card-content-field-many">
                                         <div>
                                             <div className="item-card-content-field">
-                                                <span>Price</span>
+                                                <span>{t('price')}</span>
                                                 <span>{ticketDetail?.staffPrice}MMK/L</span>
                                             </div>
                                         </div>
@@ -88,7 +90,7 @@ const TicketItems: React.FC<Props> = ({ticketDetail}) => {
                                                 {
                                                     ['SUPERVISOR_LEVEL_1', 'HO_LEVEL_1'].includes(getCurrentUser()?.role) ? null : (
                                                             <>
-                                                                <span>Approve price</span>
+                                                                <span>{t('approve-price')}</span>
                                                                 <span>{ticketDetail?.supervisorPrice}MMK/L </span>
                                                             </>
                                                     )

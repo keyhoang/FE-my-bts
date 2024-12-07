@@ -4,8 +4,10 @@ import {useNavigate} from 'react-router-dom';
 import {login} from "../../services/api";
 import "./login.css";
 import Swal from "sweetalert2";
+import { useTranslation } from 'react-i18next';
 
 const Login: React.FC = () => {
+    const { t} = useTranslation('translation');
     const [phoneNumber, setPhoneNumber] = useState('');
     const navigate = useNavigate();
 
@@ -40,8 +42,8 @@ const Login: React.FC = () => {
                     <img src="/images/logo.png" alt="Logo" className="logo-image"/>
                 </div>
                 <div className="login-content">
-                    <h1 className="login-title">Sign in</h1>
-                    <p className="login-subtitle">Enter your number to access your account</p>
+                    <h1 className="login-title">{t('login-title')}</h1>
+                    <p className="login-subtitle">{t('login-subtitle')}</p>
                     <div className="input-container">
             <span className="input-icon">
               📱
@@ -49,14 +51,14 @@ const Login: React.FC = () => {
                         <input
                             type="text"
                             className="input-field"
-                            placeholder="Enter your phone number"
+                            placeholder={t('login-input-hover')}
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e)}
                         />
                     </div>
 
-                    <button className="login-button" onClick={handleLogin}>Send OTP</button>
+                    <button className="login-button" onClick={handleLogin}>{t('login-button')}</button>
                 </div>
             </div>
 

@@ -5,11 +5,11 @@ import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { FormValues, OptionSelect, TicketItemList } from '../../types/homePage';
 import { downloadFile, getAllBranches, getAllCompany, getAllTownships, search } from '../../services/api';
 import TicketItems from './TicketItems';
-import { formatDate, handleDateFormSearch } from '../../utils/dateTime';
+import { handleDateFormSearch } from '../../utils/dateTime';
 import { useTranslation } from 'react-i18next';
 
 const HomePage: React.FC = () => {
-    const { t, i18n } = useTranslation('homePage');
+    const { t} = useTranslation('translation');
 
     const [openFormSearch, setOpenFormSearch] = useState(false);
     const [companies, setCompanies] = useState<OptionSelect[]>([]);
@@ -80,7 +80,7 @@ const HomePage: React.FC = () => {
                             <div className='group-btn-export'>
                                 <button className="btn-custom-primary" onClick={() => handleDownloadFile(formValues)}>
                                     <i className="fa-solid fa-file-arrow-down"></i>
-                                    {t('title_btn_export')}
+                                    {t('export')}
                                 </button>
                             </div>
                         </div>
@@ -93,7 +93,7 @@ const HomePage: React.FC = () => {
                                             <input
                                                 type="text"
                                                 className="input-form-control"
-                                                placeholder='Search'
+                                                placeholder={t('home_search')}
                                                 {...methods.register("search")}
                                             />
 
