@@ -107,10 +107,10 @@ export const warningApproveFuel = async (id: number) => {
     }
 }
 
-export const warningApprovePrice = async () => {
+export const warningApprovePrice = async (id: number) => {
     try {
         let token = localStorage.getItem("access_token");
-        const response = await axios.get(`${API_BASE_URL}/bts/api/v1/tickets/get-warning-price-ticket`, {
+        const response = await axios.get(`${API_BASE_URL}/bts/api/v1/tickets/get-warning-approve-price-ticket/${id}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
 

@@ -122,22 +122,24 @@ const Detail: React.FC = () => {
     const validateInputPrice = () => {
         if (!inputPrice.trim()) {
             setErrorInputPrice("Approve price is required.");
-            return;
+            return false;
         }
         if (!inputPriceRefuel.trim()) {
             setErrorInputPriceRefuel("Price at the time of refueling is required.");
-            return;
+            return false;
         }
 
         if (inputPrice === '0') {
             setErrorInputPrice("Please enter a valid number.");
-            return;
+            return false;
         }
 
         if (inputPriceRefuel === '0') {
             setErrorInputPriceRefuel("Please enter a valid number.");
-            return;
+            return false;
         }
+
+        return true;
     }
 
     const approve = async () => {
@@ -195,7 +197,7 @@ const Detail: React.FC = () => {
                     }).catch((res) => {
                         Swal.fire({
                             icon: "error",
-                            title: res.message,
+                            title: res.response.data.message,
                             confirmButtonText: "OK",
                         });
                     });
@@ -213,10 +215,12 @@ const Detail: React.FC = () => {
                         return;
                     }
 
-                    validateInputPrice();
+                    if (!validateInputPrice()) {
+                        return;
+                    }
                 }
 
-                const warningResponsePrice = await warningApprovePrice();
+                const warningResponsePrice = await warningApprovePrice(ticketId);
 
                 let confirmApprovalPrice = true;
 
@@ -256,7 +260,7 @@ const Detail: React.FC = () => {
                     }).catch((res) => {
                         Swal.fire({
                             icon: "error",
-                            title: res.message,
+                            title: res.response.data.message,
                             confirmButtonText: "OK",
                         });
                     });
@@ -293,7 +297,7 @@ const Detail: React.FC = () => {
                 }).catch((res) => {
                     Swal.fire({
                         icon: "error",
-                        title: res.message,
+                        title: res.response.data.message,
                         confirmButtonText: "OK",
                     });
                 });
@@ -301,7 +305,9 @@ const Detail: React.FC = () => {
 
             if (checkStatusApprovePrice() && checkRolePrice()) {
                 if (!checkDisableApprovePrice()) {
-                    validateInputPrice();
+                    if (validateInputPrice()) {
+                        return false;
+                    }
                 }
                 await updateApprovedTicketPrice(ticketId, parseFloat(inputPriceRefuel), parseFloat(inputPrice), inputNote).then(() => {
                     setIsApproved(true);
@@ -314,7 +320,7 @@ const Detail: React.FC = () => {
                 }).catch((res) => {
                     Swal.fire({
                         icon: "error",
-                        title: res.message,
+                        title: res.response.data.message,
                         confirmButtonText: "OK",
                     });
                 });
@@ -368,8 +374,7 @@ const Detail: React.FC = () => {
     };
 
     const checkShowButtonSubmit = () => {
-        const currentUser = getCurrentUser();
-        return !(checkRoleFuel() && checkStatusApprovePrice()) && !(currentUser?.role === 'SUPERVISOR_LEVEL_2' && getButtonLabel() === 'Approve');
+        return !(checkRoleFuel() && checkStatusApprovePrice()) && !(checkRolePrice() && getStatusLabel() === 'Submit');
     }
 
     const handleDownload = async (fileUrl:string, customName: string) => {
@@ -425,46 +430,50 @@ const Detail: React.FC = () => {
                                 </div>
                             </div>
                             {!checkDisableApprovePrice() && (
-                                <div className={'pt-4 d-flex justify-content-between input-list'}>
-                                    <div className={'d-flex flex-column'}>
-                                        <span className={'input-title'}>{t('approve-price')}</span>
-                                        <div className="input-wrapper">
-                                            <input className="input-approved"
-                                                   type="text"
-                                                   value={inputPrice}
-                                                   onChange={handleInputPrice}
-                                                   disabled={ checkDisableApprovePrice() }
-                                            />
-                                            <span className="input-suffix">
-                                            <span className="separator">|</span>
-                                            <span className="text">MMK/L</span>
-                                        </span>
+                                <>
+                                    <div className={'pt-4 d-flex justify-content-between input-list'}>
+                                        <div className={'d-flex flex-column w-100'}>
+                                            <span className={'input-title'}>{t('approve-price')}</span>
+                                            <div className="input-wrapper">
+                                                <input className="input-approved"
+                                                       type="text"
+                                                       value={inputPrice}
+                                                       onChange={handleInputPrice}
+                                                       disabled={checkDisableApprovePrice()}/>
+                                                <span className="input-suffix">
+                                                <span className="separator">|</span>
+                                                <span className="text">MMK/L</span>
+                                            </span>
+                                            </div>
+                                            {errorInputPrice &&
+                                                <p style={{color: "red", fontSize: "14px"}}>{errorInputPrice}</p>}
+                                            {ticketDetail?.approvePriceAt && (
+                                                <span>Approve price at: {ticketDetail.approvePriceAt}</span>
+                                            )}
                                         </div>
-                                        {errorInputPrice && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPrice}</p>}
-                                        {ticketDetail?.approvePriceAt && (
-                                            <span>Approve price at: {ticketDetail.approvePriceAt}</span>
-                                        )}
                                     </div>
-                                    <div className={'d-flex flex-column'}>
-                                        <span className={'input-title'}>{t('price-of')}</span>
-                                        <div className="input-wrapper">
-                                            <input className="input-approved"
-                                                   type="text"
-                                                   value={inputPriceRefuel}
-                                                   onChange={handleInputPriceRefuel}
-                                                   disabled={ checkDisableApprovePrice() }
-                                            />
-                                            <span className="input-suffix">
-                                            <span className="separator">|</span>
-                                            <span className="text">MMK/L</span>
-                                        </span>
+                                    <div className={'pt-4 d-flex justify-content-between input-list'}>
+                                        <div className={'d-flex flex-column w-100'}>
+                                            <span className={'input-title'}>{t('price-of')}</span>
+                                            <div className="input-wrapper">
+                                                <input className="input-approved"
+                                                       type="text"
+                                                       value={inputPriceRefuel}
+                                                       onChange={handleInputPriceRefuel}
+                                                       disabled={checkDisableApprovePrice()}/>
+                                                <span className="input-suffix">
+                                                    <span className="separator">|</span>
+                                                    <span className="text">MMK/L</span>
+                                                </span>
+                                            </div>
+                                            {errorInputPriceRefuel &&
+                                                <p style={{color: "red", fontSize: "14px"}}>{errorInputPriceRefuel}</p>}
+                                            {ticketDetail?.approvePriceAt && (
+                                                <span>Approve price at: {ticketDetail.approvePriceAt}</span>
+                                            )}
                                         </div>
-                                        {errorInputPriceRefuel && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPriceRefuel}</p>}
-                                        {ticketDetail?.approvePriceAt && (
-                                            <span>Approve price at: {ticketDetail.approvePriceAt}</span>
-                                        )}
                                     </div>
-                                </div>
+                                </>
                             )}
                             <div className={'detail-info'}>
                                 <div className={'d-flex justify-content-between'}>
@@ -539,7 +548,7 @@ const Detail: React.FC = () => {
                                 </div>
                             </div>
                             <div>
-                                {getButtonLabel() === 'Update' && (
+                                {getButtonLabel() === 'Update' && checkShowButtonSubmit() && (
                                     <div className={'note d-flex flex-column'}>
                                         <span className={'pb-4'}>Note</span>
                                         <input
