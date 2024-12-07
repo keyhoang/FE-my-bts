@@ -26,12 +26,6 @@ export const getUserInfo = async (): Promise<UserInfo> => {
 }
 
 export const getTicketDetail = async (id: number): Promise<any> => {
-    // getTicketDetail(1212).then((res) => {
-    //     console.log("res", res); 
-    // }).catch((res) => {
-    //     console.log("err", res)
-    // })
-
     try {
         return await axiosInstance.get(`${API_BASE_URL}/bts/api/v1/tickets/${id}`);
     } catch (error: any) {
@@ -95,6 +89,34 @@ export const updateApprovedTicketFuel = async (id: number, price: number | strin
         return response.data.data;
     } catch (error) {
         console.error("Error update approve ticket fuel data:", error);
+        throw error;
+    }
+}
+
+export const warningApproveFuel = async (id: number) => {
+    try {
+        let token = localStorage.getItem("access_token");
+        const response = await axios.get(`${API_BASE_URL}/bts/api/v1/tickets/get-warning-approve-fuel-ticket/${id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        return response.data.data;
+    } catch (error) {
+        console.error("Error warning approve ticket fuel data:", error);
+        throw error;
+    }
+}
+
+export const warningApprovePrice = async () => {
+    try {
+        let token = localStorage.getItem("access_token");
+        const response = await axios.get(`${API_BASE_URL}/bts/api/v1/tickets/get-warning-price-ticket`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        return response.data.data;
+    } catch (error) {
+        console.error("Error warning approve ticket price data:", error);
         throw error;
     }
 }

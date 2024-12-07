@@ -8,7 +8,7 @@ import {
     approvedTicketPrice,
     getTicketDetail,
     updateApprovedTicketFuel,
-    updateApprovedTicketPrice
+    updateApprovedTicketPrice, warningApproveFuel, warningApprovePrice
 } from "../../services/api";
 import {useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
@@ -98,7 +98,7 @@ const Detail: React.FC = () => {
         return !checkRolePrice();
     };
 
-    const checkShowNote = () => {
+    const checkDisableNote = () => {
         return ((checkStatusSubmit() && checkRolePrice()) || (checkStatusApproveFuel() && checkRoleFuel()) || (checkStatusApprovePrice() && checkRolePrice()));
     }
 
@@ -119,6 +119,27 @@ const Detail: React.FC = () => {
         return statusLabels[ticketDetail?.status];
     };
 
+    const validateInputPrice = () => {
+        if (!inputPrice.trim()) {
+            setErrorInputPrice("Approve price is required.");
+            return;
+        }
+        if (!inputPriceRefuel.trim()) {
+            setErrorInputPriceRefuel("Price at the time of refueling is required.");
+            return;
+        }
+
+        if (inputPrice === '0') {
+            setErrorInputPrice("Please enter a valid number.");
+            return;
+        }
+
+        if (inputPriceRefuel === '0') {
+            setErrorInputPriceRefuel("Please enter a valid number.");
+            return;
+        }
+    }
+
     const approve = async () => {
         try {
             const ticketId = id ? parseInt(id) : 0;
@@ -128,21 +149,57 @@ const Detail: React.FC = () => {
                     setErrorInputFuel("Approve fuel is required.");
                     return;
                 }
-                await approvedTicketFuel(ticketId, parseFloat(inputFuel)).then(() => {
-                    setIsApproved(true);
-                    Swal.fire({
-                        icon: "success",
-                        title: "Approved success",
-                        showConfirmButton: false,
-                        timer: 2000
+
+                if (inputFuel === '0') {
+                    setErrorInputFuel("Please enter a valid number.");
+                    return;
+                }
+
+                const warningResponseFuel = await warningApproveFuel(ticketId);
+
+                let confirmApprovalFuel = true;
+
+                if (warningResponseFuel.status === true) {
+                    const resultWarningFuel = await Swal.fire({
+                        icon: "warning",
+                        title: "Continue",
+                        html: `Account ${warningResponseFuel.userFullName} approved this station on ${warningResponseFuel.date}.<br>Are you sure you want to approve?`,
+                        showCancelButton: true,
+                        confirmButtonText: "Continue",
+                        cancelButtonText: "Cancel",
+                        customClass: {
+                            popup: "popup-warning",
+                            confirmButton: "btn-approve-warning",
+                            cancelButton: "btn-cancel-waring",
+                            title: "title-warning",
+                            icon: "icon-warning",
+                            htmlContainer: "html-warning"
+                        },
+                        reverseButtons: true
                     });
-                }).catch((res) => {
-                    Swal.fire({
-                        icon: "error",
-                        title: res.message,
-                        confirmButtonText: "OK",
+
+                    if (!resultWarningFuel.isConfirmed) {
+                        confirmApprovalFuel = false;
+                    }
+                }
+
+                if (confirmApprovalFuel) {
+                    await approvedTicketFuel(ticketId, parseFloat(inputFuel)).then(() => {
+                        setIsApproved(true);
+                        Swal.fire({
+                            icon: "success",
+                            title: "Approved success",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }).catch((res) => {
+                        Swal.fire({
+                            icon: "error",
+                            title: res.message,
+                            confirmButtonText: "OK",
+                        });
                     });
-                });
+                }
             }
 
             if ((checkStatusSubmit() || checkStatusApproveFuel()) && checkRolePrice()) {
@@ -155,22 +212,55 @@ const Detail: React.FC = () => {
                         setErrorInputPriceRefuel("Price at the time of refueling is required.");
                         return;
                     }
+
+                    validateInputPrice();
                 }
-                await approvedTicketPrice(ticketId, parseFloat(inputPriceRefuel), parseFloat(inputPrice)).then(() => {
-                    setIsApproved(true);
-                    Swal.fire({
-                        icon: "success",
-                        title: "Approved success",
-                        showConfirmButton: false,
-                        timer: 2000
+
+                const warningResponsePrice = await warningApprovePrice();
+
+                let confirmApprovalPrice = true;
+
+                if (warningResponsePrice.status === true) {
+                    const resultWarningPrice = await Swal.fire({
+                        icon: "warning",
+                        title: "Continue",
+                        html: `Account ${warningResponsePrice.userFullName} approved this station on ${warningResponsePrice.date}.<br>Are you sure you want to approve?`,
+                        showCancelButton: true,
+                        confirmButtonText: "Continue",
+                        cancelButtonText: "Cancel",
+                        customClass: {
+                            popup: "popup-warning",
+                            confirmButton: "btn-approve-warning",
+                            cancelButton: "btn-cancel-waring",
+                            title: "title-warning",
+                            icon: "icon-warning",
+                            htmlContainer: "html-warning"
+                        },
+                        reverseButtons: true
                     });
-                }).catch((res) => {
-                    Swal.fire({
-                        icon: "error",
-                        title: res.message,
-                        confirmButtonText: "OK",
+
+                    if (!resultWarningPrice.isConfirmed) {
+                        confirmApprovalPrice = false;
+                    }
+                }
+
+                if (confirmApprovalPrice) {
+                    await approvedTicketPrice(ticketId, parseFloat(inputPriceRefuel), parseFloat(inputPrice)).then(() => {
+                        setIsApproved(true);
+                        Swal.fire({
+                            icon: "success",
+                            title: "Approved success",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }).catch((res) => {
+                        Swal.fire({
+                            icon: "error",
+                            title: res.message,
+                            confirmButtonText: "OK",
+                        });
                     });
-                });
+                }
             }
         } catch (error) {
             console.error("Error approve ticket:", error);
@@ -186,6 +276,12 @@ const Detail: React.FC = () => {
                     setErrorInputFuel("Approve fuel is required.");
                     return;
                 }
+
+                if (inputFuel === '0') {
+                    setErrorInputFuel("Please enter a valid number.");
+                    return;
+                }
+
                 await updateApprovedTicketFuel(ticketId, parseFloat(inputFuel), inputNote).then(() => {
                     setIsApproved(true);
                     Swal.fire({
@@ -205,14 +301,7 @@ const Detail: React.FC = () => {
 
             if (checkStatusApprovePrice() && checkRolePrice()) {
                 if (!checkDisableApprovePrice()) {
-                    if (!inputPrice.trim()) {
-                        setErrorInputPrice("Approve price is required.");
-                        return;
-                    }
-                    if (!inputPriceRefuel.trim()) {
-                        setErrorInputPriceRefuel("Price at the time of refueling is required.");
-                        return;
-                    }
+                    validateInputPrice();
                 }
                 await updateApprovedTicketPrice(ticketId, parseFloat(inputPriceRefuel), parseFloat(inputPrice), inputNote).then(() => {
                     setIsApproved(true);
@@ -278,6 +367,11 @@ const Detail: React.FC = () => {
         window.history.back();
     };
 
+    const checkShowButtonSubmit = () => {
+        const currentUser = getCurrentUser();
+        return !(checkRoleFuel() && checkStatusApprovePrice()) && !(currentUser?.role === 'SUPERVISOR_LEVEL_2' && getButtonLabel() === 'Approve');
+    }
+
     const handleDownload = async (fileUrl:string, customName: string) => {
         try {
             const response = await fetch(fileUrl);
@@ -305,7 +399,7 @@ const Detail: React.FC = () => {
                                 <img className={'icon-back pb-3 pe-2'} src={iconBack} onClick={handleBackClick} style={{ cursor: "pointer" }}/>
                                 <span className={'detail-title fw-bold'}>{t('detail')}</span>
                             </div>
-                            {!(checkRoleFuel() && checkStatusApprovePrice()) && (<button className={'btn-approve'} onClick={submit}>{ getButtonLabel() }</button>)}
+                            { checkShowButtonSubmit() && (<button className={'btn-approve'} onClick={submit}>{ getButtonLabel() }</button>) }
                         </div>
                         <div className={'detail-main'}>
                             <div className={'detail-status'}>{ getStatusLabel() }</div>
@@ -325,6 +419,9 @@ const Detail: React.FC = () => {
                                         </span>
                                     </div>
                                     {errorInputFuel && <p style={{ color: "red", fontSize: "14px" }}>{errorInputFuel}</p>}
+                                    {ticketDetail?.approveFuelAt && (
+                                        <span>Approve fuel at: {ticketDetail.approveFuelAt}</span>
+                                    )}
                                 </div>
                             </div>
                             {!checkDisableApprovePrice() && (
@@ -344,6 +441,9 @@ const Detail: React.FC = () => {
                                         </span>
                                         </div>
                                         {errorInputPrice && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPrice}</p>}
+                                        {ticketDetail?.approvePriceAt && (
+                                            <span>Approve price at: {ticketDetail.approvePriceAt}</span>
+                                        )}
                                     </div>
                                     <div className={'d-flex flex-column'}>
                                         <span className={'input-title'}>{t('price-of')}</span>
@@ -360,6 +460,9 @@ const Detail: React.FC = () => {
                                         </span>
                                         </div>
                                         {errorInputPriceRefuel && <p style={{ color: "red", fontSize: "14px" }}>{errorInputPriceRefuel}</p>}
+                                        {ticketDetail?.approvePriceAt && (
+                                            <span>Approve price at: {ticketDetail.approvePriceAt}</span>
+                                        )}
                                     </div>
                                 </div>
                             )}
@@ -382,6 +485,11 @@ const Detail: React.FC = () => {
                                 <div className={'d-flex justify-content-between'}>
                                     <span>{t('location')}</span>
                                     <span className={'fw-bold'}>Lat: { ticketDetail?.latitude }, Lng: { ticketDetail?.longitude }</span>
+                                </div>
+                                <hr/>
+                                <div className={'d-flex justify-content-between'}>
+                                    <span>Create at</span>
+                                    <span className={'fw-bold'}>{ ticketDetail?.createdAt }</span>
                                 </div>
                                 <hr/>
                                 <div className={'d-flex flex-column'}>
@@ -431,13 +539,14 @@ const Detail: React.FC = () => {
                                 </div>
                             </div>
                             <div>
-                                {(checkShowNote()) && (
+                                {getButtonLabel() === 'Update' && (
                                     <div className={'note d-flex flex-column'}>
                                         <span className={'pb-4'}>Note</span>
                                         <input
                                             className={'input-note'}
                                             type={'text'}
                                             value={inputNote}
+                                            disabled={!checkDisableNote()}
                                             onChange={handleInputNote}
                                         />
                                     </div>
