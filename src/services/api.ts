@@ -26,12 +26,6 @@ export const getUserInfo = async (): Promise<UserInfo> => {
 }
 
 export const getTicketDetail = async (id: number): Promise<any> => {
-    // getTicketDetail(1212).then((res) => {
-    //     console.log("res", res); 
-    // }).catch((res) => {
-    //     console.log("err", res)
-    // })
-
     try {
         return await axiosInstance.get(`${API_BASE_URL}/bts/api/v1/tickets/${id}`);
     } catch (error: any) {
@@ -41,13 +35,10 @@ export const getTicketDetail = async (id: number): Promise<any> => {
 
 export const approvedTicketFuel = async (id: number, amount: number | string): Promise<TicketDetail> => {
     try {
-        let token = localStorage.getItem("access_token");
         const params = { amount: amount };
-        const response = await axios.post(`${API_BASE_URL}/bts/api/v1/tickets/amount-approve/${id}`, params, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axiosInstance.post(`${API_BASE_URL}/bts/api/v1/tickets/amount-approve/${id}`, params);
 
-        return response.data.data as TicketDetail;
+        return response.data as TicketDetail;
     } catch (error) {
         console.error("Error approve fuel ticket data:", error);
         throw error;
@@ -56,13 +47,10 @@ export const approvedTicketFuel = async (id: number, amount: number | string): P
 
 export const approvedTicketPrice = async (id: number, pricePerFuel: number | string, price: number | string) => {
     try {
-        let token = localStorage.getItem("access_token");
         const params = { pricePerFuel: pricePerFuel, price: price };
-        const response = await axios.post(`${API_BASE_URL}/bts/api/v1/tickets/price-approve/${id}`, params, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axiosInstance.post(`${API_BASE_URL}/bts/api/v1/tickets/price-approve/${id}`, params);
 
-        return response.data.data;
+        return response.data;
     } catch (error) {
         console.error("Error approve ticket price data:", error);
         throw error;
@@ -71,13 +59,10 @@ export const approvedTicketPrice = async (id: number, pricePerFuel: number | str
 
 export const updateApprovedTicketPrice = async (id: number, pricePerFuel: number | string, amount: number | string, note: string) => {
     try {
-        let token = localStorage.getItem("access_token");
         const params = { price: amount, note: note, pricePerFuel: pricePerFuel };
-        const response = await axios.post(`${API_BASE_URL}/bts/api/v1/tickets/update-price-approve/${id}`, params, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axiosInstance.post(`${API_BASE_URL}/bts/api/v1/tickets/update-price-approve/${id}`, params);
 
-        return response.data.data as TicketDetail;
+        return response.data as TicketDetail;
     } catch (error) {
         console.error("Error update approve ticket price data:", error);
         throw error;
@@ -86,15 +71,34 @@ export const updateApprovedTicketPrice = async (id: number, pricePerFuel: number
 
 export const updateApprovedTicketFuel = async (id: number, price: number | string, note: string) => {
     try {
-        let token = localStorage.getItem("access_token");
         const params = { note: note, amount: price };
-        const response = await axios.post(`${API_BASE_URL}/bts/api/v1/tickets/update-amount-approve/${id}`, params, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axiosInstance.post(`${API_BASE_URL}/bts/api/v1/tickets/update-amount-approve/${id}`, params);
 
-        return response.data.data;
+        return response.data;
     } catch (error) {
         console.error("Error update approve ticket fuel data:", error);
+        throw error;
+    }
+}
+
+export const warningApproveFuel = async (id: number) => {
+    try {
+        const response = await axiosInstance.get(`${API_BASE_URL}/bts/api/v1/tickets/get-warning-approve-fuel-ticket/${id}`);
+
+        return response.data;
+    } catch (error) {
+        console.error("Error warning approve ticket fuel data:", error);
+        throw error;
+    }
+}
+
+export const warningApprovePrice = async (id: number) => {
+    try {
+        const response = await axiosInstance.get(`${API_BASE_URL}/bts/api/v1/tickets/get-warning-approve-price-ticket/${id}`);
+
+        return response.data;
+    } catch (error) {
+        console.error("Error warning approve ticket price data:", error);
         throw error;
     }
 }

@@ -104,6 +104,48 @@
   flex-wrap: wrap;
 }
 
+.popup-warning {
+  display: flex;
+  flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
+  align-items: center;    /* Căn giữa nội dung */
+}
+
+.btn-approve-warning {
+  background-color: #FD6D1A;
+  color: white;
+  border: 1px solid #FD6D1A;
+  font-weight: bold;
+  border-radius: 15px;
+}
+
+.title-warning {
+  order: 1;
+  font-size: 24px;
+  font-weight: bold;
+  color: #FD6D1A;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.icon-warning {
+  order: 2;
+}
+
+.html-warning {
+  order: 3;
+}
+
+.swal2-actions {
+  order: 4;
+}
+
+.btn-cancel-waring {
+  background-color: white;
+  color: #FD6D1A;
+  border: 1px solid #FD6D1A;
+  font-weight: bold;
+  border-radius: 15px;
+}
 @media (max-width: 1024px) {
   .detail-content {
     width: 100%;
