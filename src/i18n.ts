@@ -17,7 +17,7 @@ const resources = {
 };
 
 export const langSupports = ['en', 'my'];
-export const langDefault = 'my';
+export const langDefault = 'en';
 
 export const getLanguage = () => {
     let storageLanguage = localStorage.getItem('selectedLanguage') ?? "";
