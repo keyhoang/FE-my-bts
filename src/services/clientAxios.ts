@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from "../config";
+import {getLanguage} from "../i18n";
 
 const API_BASE_URL = config.API_URL;
 
@@ -12,6 +13,7 @@ axiosInstance.interceptors.request.use(
         const token = localStorage.getItem("access_token");
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
+            config.headers['Accept-Language'] = `${getLanguage()}`
         }
         return config;
     },
