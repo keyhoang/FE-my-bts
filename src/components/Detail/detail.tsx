@@ -12,6 +12,7 @@ import {
 } from "../../services/api";
 import {useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import Loading from "../common/loading";
 
 const Detail: React.FC = () => {
     const { t} = useTranslation('translation');
@@ -25,6 +26,7 @@ const Detail: React.FC = () => {
     const [errorInputPrice, setErrorInputPrice] = useState<string | null>(null);
     const [errorInputPriceRefuel, setErrorInputPriceRefuel] = useState<string | null>(null);
     const [isApproved, setIsApproved] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -189,6 +191,7 @@ const Detail: React.FC = () => {
                 }
 
                 if (confirmApprovalFuel) {
+                    setLoading(true);
                     await approvedTicketFuel(ticketId, parseFloat(inputFuel)).then(() => {
                         setIsApproved(true);
                         Swal.fire({
@@ -203,6 +206,8 @@ const Detail: React.FC = () => {
                             title: res.message,
                             confirmButtonText: "OK",
                         });
+                    }).finally(() => {
+                        setLoading(false);
                     });
                 }
             }
@@ -255,6 +260,7 @@ const Detail: React.FC = () => {
                 }
 
                 if (confirmApprovalPrice) {
+                    setLoading(true);
                     await approvedTicketPrice(ticketId, parseFloat(inputPriceRefuel), parseFloat(inputPrice)).then(() => {
                         setIsApproved(true);
                         Swal.fire({
@@ -269,6 +275,8 @@ const Detail: React.FC = () => {
                             title: res.message,
                             confirmButtonText: "OK",
                         });
+                    }).finally(() => {
+                        setLoading(false);
                     });
                 }
             }
@@ -292,6 +300,7 @@ const Detail: React.FC = () => {
                     return;
                 }
 
+                setLoading(true);
                 await updateApprovedTicketFuel(ticketId, parseFloat(inputFuel), inputNote).then(() => {
                     setIsApproved(true);
                     Swal.fire({
@@ -306,6 +315,8 @@ const Detail: React.FC = () => {
                         title: res.message,
                         confirmButtonText: "OK",
                     });
+                }).finally(() => {
+                    setLoading(false);
                 });
             }
 
@@ -316,6 +327,7 @@ const Detail: React.FC = () => {
                     }
                 }
                 await updateApprovedTicketPrice(ticketId, parseFloat(inputPriceRefuel), parseFloat(inputPrice), inputNote).then(() => {
+                    setLoading(true);
                     setIsApproved(true);
                     Swal.fire({
                         icon: "success",
@@ -329,6 +341,8 @@ const Detail: React.FC = () => {
                         title: res.message,
                         confirmButtonText: "OK",
                     });
+                }).finally(() => {
+                    setLoading(false);
                 });
             }
         } catch (error) {
@@ -412,6 +426,9 @@ const Detail: React.FC = () => {
                             </div>
                             { checkShowButtonSubmit() && (<button className={'btn-approve'} onClick={submit}>{ getButtonLabel() }</button>) }
                         </div>
+                        {loading && (
+                            <Loading></Loading>
+                        )}
                         <div className={'detail-main'}>
                             <div className={'detail-status'}>{ getStatusLabel() }</div>
                             <div className={'pt-4 d-flex justify-content-between input-list'}>
@@ -528,16 +545,16 @@ const Detail: React.FC = () => {
                                             >
                                                 {
                                                     file.extension === "html" || file.extension === "txt" ? (
-                                                    <img
-                                                        style={{marginRight: "8px", maxWidth: "50px", height: "auto"}}
-                                                        src={file.url}
-                                                        alt={`file-${file.id}`}
-                                                    />
-                                                ) : (
-                                                    <span style={{marginRight: "8px"}}>
+                                                        <img
+                                                            style={{marginRight: "8px", maxWidth: "50px", height: "auto"}}
+                                                            src={file.url}
+                                                            alt={`file-${file.id}`}
+                                                        />
+                                                    ) : (
+                                                        <span style={{marginRight: "8px"}}>
                                                         {file.extension.toUpperCase()}
                                                     </span>
-                                                )}
+                                                    )}
                                                 <span>{file.message || `File ${file.id}`}</span>
                                             </div>
                                         ))
