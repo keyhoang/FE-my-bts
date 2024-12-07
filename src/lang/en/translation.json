@@ -33,5 +33,20 @@
     "location": "Location",
     "bill": "Bill",
     "file": "File",
-    "note": "note"
+    "note": "note",
+    "approve": "Approve",
+    "update": "Update",
+    "submit": "Submit",
+    "approve_fuel_at": "Approve fuel at",
+    "approve_price_at": "Approve price at",
+    "approve_price_required": "Approve price is required.",
+    "approve_fuel_required": "Approve fuel is required.",
+    "price_at_the_time_required" : "Price at the time of refueling is required.",
+    "valid_number" : "Please enter a valid number.",
+    "continue" : "Continue",
+    "approved_success" : "Approved success",
+    "updated_success" : "Updated success",
+    "error_downloading_file" : "Error downloading file",
+    "failed_to_fetch_ticket_details" : "Failed to fetch ticket details",
+    "warning_text" : "Account {{userFullName}} approved this station on {{date}}.<br>Are you sure you want to approve?"
 }

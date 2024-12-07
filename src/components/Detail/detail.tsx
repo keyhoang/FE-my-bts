@@ -54,7 +54,7 @@ const Detail: React.FC = () => {
         }).catch(() => {
             Swal.fire({
                 icon: "error",
-                title: "Failed to fetch ticket details",
+                title: t('failed_to_fetch_ticket_details'),
                 showConfirmButton: false,
                 timer: 2000
             }).then().finally(() => {
@@ -104,38 +104,38 @@ const Detail: React.FC = () => {
 
     const getButtonLabel = () => {
         if (checkStatusSubmit() || (checkStatusApproveFuel() && checkRolePrice())) {
-            return 'Approve'
+            return t('approve')
         }
 
-        return 'Update'
+        return t('update')
     }
 
     const getStatusLabel = () => {
         const statusLabels: Record<string, string> = {
-            APPROVED_FUEL: "Approved Fuel",
-            APPROVED_PRICE: "Approved Price",
-            SUBMITTED: "Submit",
+            APPROVED_FUEL: t('approve-fuel'),
+            APPROVED_PRICE: t('approve-price'),
+            SUBMITTED: t('submit'),
         };
         return statusLabels[ticketDetail?.status];
     };
 
     const validateInputPrice = () => {
         if (!inputPrice.trim()) {
-            setErrorInputPrice("Approve price is required.");
+            setErrorInputPrice(t('approve_price_required'));
             return false;
         }
         if (!inputPriceRefuel.trim()) {
-            setErrorInputPriceRefuel("Price at the time of refueling is required.");
+            setErrorInputPriceRefuel(t('price_at_the_time_required'));
             return false;
         }
 
         if (inputPrice === '0') {
-            setErrorInputPrice("Please enter a valid number.");
+            setErrorInputPrice(t('valid_number'));
             return false;
         }
 
         if (inputPriceRefuel === '0') {
-            setErrorInputPriceRefuel("Please enter a valid number.");
+            setErrorInputPriceRefuel(t('valid_number'));
             return false;
         }
 
@@ -148,12 +148,12 @@ const Detail: React.FC = () => {
 
             if (checkStatusSubmit() && checkRoleFuel()) {
                 if (!inputFuel.trim() && !checkDisableApproveFuel()) {
-                    setErrorInputFuel("Approve fuel is required.");
+                    setErrorInputFuel(t('approve_fuel_required'));
                     return;
                 }
 
                 if (inputFuel === '0') {
-                    setErrorInputFuel("Please enter a valid number.");
+                    setErrorInputFuel(t('valid_number'));
                     return;
                 }
 
@@ -164,8 +164,11 @@ const Detail: React.FC = () => {
                 if (warningResponseFuel.status === true) {
                     const resultWarningFuel = await Swal.fire({
                         icon: "warning",
-                        title: "Continue",
-                        html: `Account ${warningResponseFuel.userFullName} approved this station on ${warningResponseFuel.date}.<br>Are you sure you want to approve?`,
+                        title: t('continue'),
+                        html: t("warning_text", {
+                            userFullName: warningResponseFuel.userFullName,
+                            date: warningResponseFuel.date
+                        }),
                         showCancelButton: true,
                         confirmButtonText: "Continue",
                         cancelButtonText: "Cancel",
@@ -190,14 +193,14 @@ const Detail: React.FC = () => {
                         setIsApproved(true);
                         Swal.fire({
                             icon: "success",
-                            title: "Approved success",
+                            title: t('approved_success'),
                             showConfirmButton: false,
                             timer: 2000
                         });
                     }).catch((res) => {
                         Swal.fire({
                             icon: "error",
-                            title: res.response.data.message,
+                            title: res.message,
                             confirmButtonText: "OK",
                         });
                     });
@@ -207,11 +210,11 @@ const Detail: React.FC = () => {
             if ((checkStatusSubmit() || checkStatusApproveFuel()) && checkRolePrice()) {
                 if (!checkDisableApprovePrice()) {
                     if (!inputPrice.trim()) {
-                        setErrorInputPrice("Approve price is required.");
+                        setErrorInputPrice(t('approve_price_required'));
                         return;
                     }
                     if (!inputPriceRefuel.trim()) {
-                        setErrorInputPriceRefuel("Price at the time of refueling is required.");
+                        setErrorInputPriceRefuel(t('price_at_the_time_required'));
                         return;
                     }
 
@@ -227,8 +230,11 @@ const Detail: React.FC = () => {
                 if (warningResponsePrice.status === true) {
                     const resultWarningPrice = await Swal.fire({
                         icon: "warning",
-                        title: "Continue",
-                        html: `Account ${warningResponsePrice.userFullName} approved this station on ${warningResponsePrice.date}.<br>Are you sure you want to approve?`,
+                        title: t('continue'),
+                        html: t("warning_text", {
+                            userFullName: warningResponsePrice.userFullName,
+                            date: warningResponsePrice.date
+                        }),
                         showCancelButton: true,
                         confirmButtonText: "Continue",
                         cancelButtonText: "Cancel",
@@ -253,14 +259,14 @@ const Detail: React.FC = () => {
                         setIsApproved(true);
                         Swal.fire({
                             icon: "success",
-                            title: "Approved success",
+                            title: t('approved_success'),
                             showConfirmButton: false,
                             timer: 2000
                         });
                     }).catch((res) => {
                         Swal.fire({
                             icon: "error",
-                            title: res.response.data.message,
+                            title: res.message,
                             confirmButtonText: "OK",
                         });
                     });
@@ -277,12 +283,12 @@ const Detail: React.FC = () => {
 
             if (checkStatusApproveFuel() && checkRoleFuel()) {
                 if (!inputFuel.trim() && !checkDisableApproveFuel()) {
-                    setErrorInputFuel("Approve fuel is required.");
+                    setErrorInputFuel(t('approve_fuel_required'));
                     return;
                 }
 
                 if (inputFuel === '0') {
-                    setErrorInputFuel("Please enter a valid number.");
+                    setErrorInputFuel(t('valid_number'));
                     return;
                 }
 
@@ -290,14 +296,14 @@ const Detail: React.FC = () => {
                     setIsApproved(true);
                     Swal.fire({
                         icon: "success",
-                        title: "Updated success",
+                        title: t('updated_success'),
                         showConfirmButton: false,
                         timer: 2000
                     });
                 }).catch((res) => {
                     Swal.fire({
                         icon: "error",
-                        title: res.response.data.message,
+                        title: res.message,
                         confirmButtonText: "OK",
                     });
                 });
@@ -313,14 +319,14 @@ const Detail: React.FC = () => {
                     setIsApproved(true);
                     Swal.fire({
                         icon: "success",
-                        title: "Updated success",
+                        title: t('updated_success'),
                         showConfirmButton: false,
                         timer: 2000
                     });
                 }).catch((res) => {
                     Swal.fire({
                         icon: "error",
-                        title: res.response.data.message,
+                        title: res.message,
                         confirmButtonText: "OK",
                     });
                 });
@@ -331,7 +337,7 @@ const Detail: React.FC = () => {
     };
 
     const submit = () => {
-        if (getButtonLabel() === 'Approve') {
+        if (getButtonLabel() === t('approve')) {
             return approve();
         }
 
@@ -374,7 +380,7 @@ const Detail: React.FC = () => {
     };
 
     const checkShowButtonSubmit = () => {
-        return !(checkRoleFuel() && checkStatusApprovePrice()) && !(checkRolePrice() && getStatusLabel() === 'Submit');
+        return !(checkRoleFuel() && checkStatusApprovePrice()) && !(checkRolePrice() && ticketDetail?.status === 'SUBMITTED');
     }
 
     const handleDownload = async (fileUrl:string, customName: string) => {
@@ -425,7 +431,7 @@ const Detail: React.FC = () => {
                                     </div>
                                     {errorInputFuel && <p style={{ color: "red", fontSize: "14px" }}>{errorInputFuel}</p>}
                                     {ticketDetail?.approveFuelAt && (
-                                        <span>Approve fuel at: {ticketDetail.approveFuelAt}</span>
+                                        <span>{t('approve_fuel_at')}: {ticketDetail.approveFuelAt}</span>
                                     )}
                                 </div>
                             </div>
@@ -448,7 +454,7 @@ const Detail: React.FC = () => {
                                             {errorInputPrice &&
                                                 <p style={{color: "red", fontSize: "14px"}}>{errorInputPrice}</p>}
                                             {ticketDetail?.approvePriceAt && (
-                                                <span>Approve price at: {ticketDetail.approvePriceAt}</span>
+                                                <span>{t('approve_price_at')}: {ticketDetail.approvePriceAt}</span>
                                             )}
                                         </div>
                                     </div>
@@ -469,7 +475,7 @@ const Detail: React.FC = () => {
                                             {errorInputPriceRefuel &&
                                                 <p style={{color: "red", fontSize: "14px"}}>{errorInputPriceRefuel}</p>}
                                             {ticketDetail?.approvePriceAt && (
-                                                <span>Approve price at: {ticketDetail.approvePriceAt}</span>
+                                                <span>{t('approve_price_at')}: {ticketDetail.approvePriceAt}</span>
                                             )}
                                         </div>
                                     </div>
@@ -548,9 +554,9 @@ const Detail: React.FC = () => {
                                 </div>
                             </div>
                             <div>
-                                {getButtonLabel() === 'Update' && checkShowButtonSubmit() && (
+                                {getButtonLabel() === t('update') && checkShowButtonSubmit() && (
                                     <div className={'note d-flex flex-column'}>
-                                        <span className={'pb-4'}>Note</span>
+                                        <span className={'pb-4'}>{t('note')}</span>
                                         <input
                                             className={'input-note'}
                                             type={'text'}
