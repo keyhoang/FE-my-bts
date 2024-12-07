@@ -20,7 +20,7 @@ export const langSupports = ['en', 'my'];
 export const langDefault = 'my';
 
 export const getLanguage = () => {
-    let storageLanguage = sessionStorage.getItem('selectedLanguage') ?? "";
+    let storageLanguage = localStorage.getItem('selectedLanguage') ?? "";
     if (langSupports.includes(storageLanguage)) {
         return storageLanguage;
     }
@@ -29,7 +29,7 @@ export const getLanguage = () => {
 };
 
 export const changeLanguage = (language: string) => {
-    sessionStorage.setItem('selectedLanguage', language);
+    localStorage.setItem('selectedLanguage', language);
     i18n.changeLanguage(language);
 };
 

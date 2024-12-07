@@ -5,7 +5,7 @@ import {getUserInfo, login, verifyOtp} from "../../services/api";
 import {setAccessToken, setCurrentUser} from "../../utils/auth";
 import "./otp.css";
 import Swal from "sweetalert2";
-import {useTranslation} from "react-i18next"; // Import SweetAlert2
+import {useTranslation} from "react-i18next";
 
 const Otp: React.FC = () => {
     const { t} = useTranslation('translation');
@@ -16,6 +16,7 @@ const Otp: React.FC = () => {
     const [otp, setOtp] = useState(Array(4).fill(''));
     const [counter, setCounter] = useState(60); // Thời gian đếm ngược
     const [, setIsDisabled] = useState(false); // Trạng thái nút resend OTP
+
 
     const handleResendOTP = () => {
         resendOtp();
@@ -47,9 +48,9 @@ const Otp: React.FC = () => {
         } else {
             setIsDisabled(false); // Enable nút khi hết thời gian
         }
-        inputRefs.current[0]?.focus();
         return () => {
             if (timer) clearInterval(timer);
+            if (counter === 60) inputRefs.current[0]?.focus();
         };
     }, [counter]);
     const handleInputChange = (index: number, value: string) => {
@@ -62,6 +63,11 @@ const Otp: React.FC = () => {
         if (value && index < otp.length - 1) {
             inputRefs.current[index + 1]?.focus(); // Chuyển sang ô tiếp theo
         }
+
+        // Tự động submit nếu đã nhập đủ 4 ký tự
+        if (newOtp.every((char) => char !== '') && newOtp.length === 4) {
+            handleVerifyOtp(newOtp);
+        }
     };
 
     const handleKeyDown = (index: number, event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -72,7 +78,7 @@ const Otp: React.FC = () => {
         }
 
         if (event.key === "Enter") {
-            handleVerifyOtp(); // Submit khi nhấn Enter
+            handleVerifyOtp(otp); // Submit khi nhấn Enter
         }
     };
 
@@ -86,9 +92,9 @@ const Otp: React.FC = () => {
         }
     };
 
-    const handleVerifyOtp = async () => {
+    const handleVerifyOtp = async (otp : any|null) => {
         try {
-            const response = await verifyOtp(phoneNumber, otp.join('')) ;
+            const response = await verifyOtp(phoneNumber,  otp.join('')) ;
             setAccessToken(response.data.data.token);
             setCurrentUser(await getUserInfo())
             navigate('/');
@@ -130,7 +136,7 @@ const Otp: React.FC = () => {
                                 />
                             ))}
                         </div>
-                        <button className="otp-button" onClick={handleVerifyOtp}>{t('otp_button')}</button>
+                        <button className="otp-button" onClick={() => handleVerifyOtp(otp)}>{t('otp_button')}</button>
 
                         <p>
                             {counter > 0

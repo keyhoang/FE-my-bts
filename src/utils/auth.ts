@@ -1,6 +1,5 @@
 // src/utils/auth.ts
 import {UserInfo} from "../model/UserInfo";
-import {userInfo} from "os";
 
 export const getAccessToken = () => localStorage.getItem('access_token');
 
@@ -11,6 +10,11 @@ export const setAccessToken = (token: string) => {
 export const setCurrentUser = (user: UserInfo) => {
     localStorage.setItem('current_user', JSON.stringify(user));
 };
+
+export const logout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('current_user');
+}
 
 export const getCurrentUser = () => {
     const storedValue = localStorage.getItem('current_user')
