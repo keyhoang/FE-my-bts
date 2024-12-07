@@ -4,8 +4,9 @@ import axios from 'axios';
 import { UserInfo } from "../model/UserInfo";
 import { FormValues, OptionSelect, TicketItemList } from '../types/homePage';
 import { TicketDetail } from "../model/TicketDetail";
+import config from "../config";
 
-const API_BASE_URL = 'http://171.244.3.117:8080';
+const API_BASE_URL = config.API_URL;
 
 export const login = (phoneNumber: string) =>
     axios.post(`${API_BASE_URL}/bts/api/v1/auth/send-otp-login-web`, { phoneNumber: phoneNumber });

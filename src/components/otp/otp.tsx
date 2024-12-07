@@ -47,7 +47,7 @@ const Otp: React.FC = () => {
         } else {
             setIsDisabled(false); // Enable nút khi hết thời gian
         }
-
+        inputRefs.current[0]?.focus();
         return () => {
             if (timer) clearInterval(timer);
         };

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import config from "../config";
 
-const API_BASE_URL = 'http://171.244.3.117:8080/bts/api/v1';
+const API_BASE_URL = config.API_URL;
 
 const axiosInstance = axios.create({
     baseURL: API_BASE_URL,
